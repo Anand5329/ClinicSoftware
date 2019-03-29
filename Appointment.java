@@ -79,6 +79,13 @@ public class Appointment {
         lab.setReceivedDate(receivedDate);
         lab.setLabName(labName);
         lab.setWork(work);
+        lab.setPatientName(patient.getName());
+    }
+
+    void setPrescription(String date)
+    {
+        prescription.setDate(date);
+        prescription.setPatientName(patient.getName());
     }
 
     LabWork getLab()
