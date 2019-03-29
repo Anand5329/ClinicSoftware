@@ -22,7 +22,7 @@ public class Schedule
         this(0,"");
     }
 
-    int getAppointments()
+    int getNoOfAppointments()
     {
         return no_of_appointments;
     }
@@ -35,6 +35,16 @@ public class Schedule
     int getPatientCounter()
     {
         return patient_counter;
+    }
+
+    LinkedList<Slot> getSlots()
+    {
+        return time;
+    }
+
+    LinkedList<Appointment> getAppointments()
+    {
+        return patients;
     }
 
     void add(Appointment a)
