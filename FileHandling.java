@@ -12,7 +12,8 @@ public class FileHandling
         FileWriter fw=new FileWriter("D:/Java-Blue J/src/ClinicSoftware/Records/"+patient.getName()+"\t"+patient.getPhone()+".csv");
         CSVWriter writer=new CSVWriter(fw);
         writer.writeNext(recordHeader);
-        writer.writeNext(patient.getName(),patient.getPhone(),patient.getAge(),patient.getFirstDate(),patient.getLatestDate(),patient.getDesc(),patient.getMoney(),patient.getHeartCondition(),patient.getAllergy(),patient.getDiabetes(),patient.getBloodPressure())
+        String recordDetails[]={patient.getName(),patient.getPhone(),patient.getAge(),patient.getFirstDate(),patient.getLatestDate(),patient.getDesc(),patient.getMoney()+"",patient.getHeartCondition()+"",patient.getAllergy()+"",patient.getDiabetes()+"",patient.getBloodPressure()+""};
+        writer.writeNext(recordDetails);
         writer.close();
     }
 
@@ -21,7 +22,8 @@ public class FileHandling
         FileWriter fw =new FileWriter("D:/Java-Blue J/src/ClinicSoftware/Lab Work/"+lab.getPatientName()+"\t"+lab.getSentDate()+".csv");
         CSVWriter writer=new CSVWriter(fw);
         writer.writeNext(labHeader);
-        writer.writeNext(lab.getSentDate(),lab.getReceivedDate(),lab.getLabName(),lab.getWork());
+        String labDetails[]={lab.getSentDate(),lab.getReceivedDate(),lab.getLabName(),lab.getWork()}
+        writer.writeNext(labDetails);
         writer.close();
     }
 
@@ -30,7 +32,8 @@ public class FileHandling
         FileWriter fw = new FileWriter("D:/Java-Blue J/src/ClinicSoftware/Lab Work/" + prescription.getPatientName() + "\t" + prescription.getDate() + ".csv");
         CSVWriter writer = new CSVWriter(fw);
         writer.writeNext(prescriptionHeader);
-        writer.writeNext(prescription.getDate(),prescription.getMedicines(),prescription.getInstruction());
+        String prescriptionDetails[]={prescription.getDate(),prescription.getMedicines(),prescription.getInstruction()};
+        writer.writeNext(prescriptionDetails);
         writer.close();
     }
 }
