@@ -2,19 +2,20 @@ package ClinicSoftware;
 
 public class LabWork
 {
-    private String sentDate, receivedDate, labName, work;
+    private String sentDate, receivedDate, labName, work, patientName;
 
-    LabWork(String sentDate,String receivedDate,String labName,String work)
+    LabWork(String sentDate,String receivedDate,String labName,String work, String patientName)
     {
         this.sentDate=sentDate;
         this.receivedDate=receivedDate;
         this.labName=labName;
         this.work=work;
+        this.patientName=patientName;
     }
 
     LabWork()
     {
-        this("","","","");
+        this("","","","","");
     }
 
     String getSentDate()
@@ -37,6 +38,8 @@ public class LabWork
         return work;
     }
 
+    String getPatientName(){return patientName;}
+
     //setters:
 
     void setSentDate(String sentDate)
@@ -58,4 +61,6 @@ public class LabWork
     {
         this.work=work;
     }
+
+    void setPatientName(String patientName) {this.patientName=patientName;}
 }

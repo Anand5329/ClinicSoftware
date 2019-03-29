@@ -4,26 +4,29 @@ import java.util.LinkedList;
 
 public class Prescription
 {
-    private String date;
+    private String date,patientName;
     private LinkedList<String> medicines;
     private LinkedList<String> instruction;
 
-    Prescription(String date)
+    Prescription(String date,String patientName)
     {
         this.date=date;
+        this.patientName=patientName;
         medicines=new LinkedList<>();
         instruction=new LinkedList<>();
     }
 
     Prescription()
     {
-        this("");
+        this("","");
     }
 
     String getDate()
     {
         return date;
     }
+
+    String getPatientName() {return patientName;}
 
     LinkedList<String> getMedicines()
     {
@@ -39,6 +42,8 @@ public class Prescription
     {
         this.date=date;
     }
+
+    void setPatientName(String patientName) {this.patientName=patientName;}
 
     void addMedicine(String medicine)
     {
