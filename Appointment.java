@@ -6,6 +6,8 @@ public class Appointment {
     String procedure;
     double price;
     Slot time;
+    LabWork lab;
+    Prescription prescription;
 
     Appointment(Record patient, String date, String procedure, double price, Slot time) {
         this.patient = patient;
@@ -16,6 +18,8 @@ public class Appointment {
             this.time=time;
         else
             this.time=new Slot();
+        lab=new LabWork();
+        prescription = new Prescription();
     }
 
     Appointment() {
@@ -69,4 +73,21 @@ public class Appointment {
         return s;
     }
 
+    void setLab(String sentDate,String receivedDate,String labName,String work)
+    {
+        lab.setSentDate(sentDate);
+        lab.setReceivedDate(receivedDate);
+        lab.setLabName(labName);
+        lab.setWork(work);
+    }
+
+    LabWork getLab()
+    {
+        return lab;
+    }
+
+    Prescription getPrescription()
+    {
+        return prescription;
+    }
 }
