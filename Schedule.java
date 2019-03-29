@@ -69,4 +69,18 @@ public class Schedule
         Appointment Break=new Appointment(b,"");
         add(Break);
     }
+
+    void remove(Appointment patient)
+    {
+        int index=patients.indexOf(patient);
+        patients.remove(patient);
+        time.remove(index);
+    }
+
+    void remove(Slot time)
+    {
+        int index=this.time.indexOf(time);
+        this.time.remove(time);
+        patients.remove(index);
+    }
 }

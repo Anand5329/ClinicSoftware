@@ -12,6 +12,8 @@ public class test extends Record {
         s1.add(a1);
         s1.addBreak();
         s1.display();
+        s1.remove(a1);
+        s1.display();
     }
 
 }
