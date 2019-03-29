@@ -5,7 +5,7 @@ public class Record
 {
     private String name;
     private long phone;
-    private String date1;
+    private String first_date;
     private int age;
     private String desc;
     private String latest_date;
@@ -19,7 +19,7 @@ public class Record
     {
         name=n;
         phone=p;
-        date1=d1;
+        first_date=d1;
         age=a;
         desc=d;
         latest_date=ldate;
@@ -50,9 +50,9 @@ public class Record
         return phone;
     }
 
-    String getDate1()
+    String getFirstDate()
     {
-        return date1;
+        return first_date;
     }
 
     int getAge()
@@ -68,6 +68,11 @@ public class Record
     String getLatestDate()
     {
         return latest_date;
+    }
+
+    double getMoney()
+    {
+        return money;
     }
 
     boolean getHeartCondition(){return heart_condition;}
@@ -112,8 +117,8 @@ public class Record
         updateMoney(a.getPrice());
     }
 
-//    void displayRecord()
-//    {
-//        String s=name+"\t\t\t"+
-//    }
+    String getFileName()
+    {
+        return name+"\t"+phone;
+    }
 }
