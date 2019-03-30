@@ -8,13 +8,29 @@ public class FileHandling {
     private String appointmentHeader[]={"Record","Date","Procedure","Price","LabWork","Slot","Prescription"};
     private String scheduleHeader[]={"Slot","Appointment"};
     private String recordHeader[]={"Name","Phone No.","Age","First Date","Latest Date","Description","Money","Heart Condition","Allergy","Diabetes","Blood Pressure"};
-    private String labHeader[]={"Sent Date","Received Date","Lab Name","Description","Patient Name"};
-    private String prescriptionHeader[]={"Patient Name","Date","Medicine Name","Instruction"};
-    private String dir="D:/Java-Blue J/src/ClinicSoftware/";
+    private String labHeader[]={"Patient Name","Sent Date","Received Date","Lab Name","Description"};
+    private String prescriptionHeader[]={"Date","Medicine Name","Instruction"};
+    private String dir="C:/Anand/Code Projects!/Directories/";
+
+    String recordFolder="Records/";
+    String appointmentFolder="Appointments/";
+    String schedulesFolder="Schedules/";
+    String labFolder="Lab Work/";
+    String prescriptionFolder="Prescriptions/";
+
+    String getDirectory()
+    {
+        return dir;
+    }
+
+    void setDirectory(String dir)
+    {
+        this.dir=dir;
+    }
 
     void createRecordFile(Record patient)throws IOException
     {
-        FileWriter fw=new FileWriter(dir+"Records/"+patient.getName()+" "+patient.getPhone()+".csv");
+        FileWriter fw=new FileWriter(dir+recordFolder+patient.getName()+" "+patient.getPhone()+".csv");
         CSVWriter writer=new CSVWriter(fw);
         writer.writeNext(recordHeader);
         String recordDetails[]={patient.getName(),""+patient.getPhone(),""+patient.getAge(),patient.getFirstDate(),patient.getLatestDate(),patient.getDesc(),patient.getMoney()+"",patient.getHeartCondition()+"",patient.getAllergy()+"",patient.getDiabetes()+"",patient.getBloodPressure()+""};
@@ -25,10 +41,10 @@ public class FileHandling {
 
     void createLabFile(LabWork lab)throws IOException
     {
-        FileWriter fw =new FileWriter(dir+"Lab Work/"+lab.getPatientName()+" "+lab.getSentDate()+".csv");
+        FileWriter fw =new FileWriter(dir+labFolder+lab.getPatientName()+" "+lab.getSentDate()+".csv");
         CSVWriter writer=new CSVWriter(fw);
         writer.writeNext(labHeader);
-        String labDetails[]={lab.getSentDate(),lab.getReceivedDate(),lab.getLabName(),lab.getWork(),lab.getPatientName()};
+        String labDetails[]={lab.getPatientName(),lab.getSentDate(),lab.getReceivedDate(),lab.getLabName(),lab.getWork()};
         writer.writeNext(labDetails);
         writer.close();
         fw.close();
@@ -36,15 +52,15 @@ public class FileHandling {
 
     void createPrescriptionFile(Prescription prescription)throws IOException
     {
-        FileWriter fw = new FileWriter(dir+"Prescriptions/" + prescription.getPatientName() + " " + prescription.getDate() + ".csv");
+        FileWriter fw = new FileWriter(dir+prescriptionFolder + prescription.getPatientName() + " " + prescription.getDate() + ".csv");
         CSVWriter writer = new CSVWriter(fw);
         writer.writeNext(prescriptionHeader);
-        String prescriptionDetails[]={prescription.getPatientName(),prescription.getDate()};
+        String prescriptionDetails[]={prescription.getDate()};
 
         writer.writeNext(prescriptionDetails);
         for(int i=0;i<prescription.getMedicines().size();i++)
         {
-            String temp[]={"","",prescription.getMedicines().get(i),prescription.getInstruction().get(i)};
+            String temp[]={"",prescription.getMedicines().get(i),prescription.getInstruction().get(i)};
             writer.writeNext(temp);
         }
         writer.close();
@@ -53,7 +69,7 @@ public class FileHandling {
 
     void createAppointmentFile(Appointment a)throws IOException
     {
-        FileWriter fw=new FileWriter(dir+"Appointments/"+a.getPatient().getName()+" "+a.getDate()+".csv");
+        FileWriter fw=new FileWriter(dir+appointmentFolder+a.getPatient().getName()+" "+a.getDate()+".csv");
         CSVWriter writer=new CSVWriter(fw);
         writer.writeNext(appointmentHeader);
         String[] dat={a.getPatient().getFileName(),a.getDate(),a.getProcedure(),""+a.getPrice(),a.getLab().getPatientName()+" "+a.getLab().getSentDate()+".csv",a.getTime().displaySlot(),a.getPrescription().getPatientName()+" "+a.getPrescription().getDate()+".csv"};
@@ -64,27 +80,83 @@ public class FileHandling {
 
     void createScheduleFile(Schedule s)throws IOException
     {
-        FileWriter fw=new FileWriter(dir+"Schedules/"+s.getDate()+".csv");
+        FileWriter fw=new FileWriter(dir+schedulesFolder+s.getDate()+".csv");
         CSVWriter writer=new CSVWriter(fw);
         writer.writeNext(scheduleHeader);
         for(int i=0;i<s.getSlots().size();i++)
         {
-            String entry[]={s.getSlots().get(i).displaySlot(),"Appointments/"+s.getAppointments().get(i).getPatient().getName()+" "+s.getAppointments().get(i).getDate()+".csv"};
+            String entry[]={s.getSlots().get(i).displaySlot(),appointmentFolder+s.getAppointments().get(i).getPatient().getName()+" "+s.getAppointments().get(i).getPatient().getPhone()+".csv"};
             writer.writeNext(entry);
         }
         writer.close();
         fw.close();
     }
 
+    Record getRecordFile(String name,long phone)throws IOException
+    {
+        String fileName=name+" "+phone+".csv";
+        FileReader fr=new FileReader(dir+recordFolder+fileName);
+        CSVReader reader=new CSVReader(fr);
+        reader.readNext();
+        String arr[]=reader.readNext();
+        Record r=new Record(arr[0],Long.valueOf(arr[1]));
+        r.updateMoney(Double.valueOf(arr[6]));
+        r.setAge(Integer.valueOf(arr[2]));
+        r.setFirstDate(arr[3]);
+        r.setLatestDate(arr[4]);
+        r.setDesc(arr[5]);
+        r.setHeartCondition(Boolean.valueOf(arr[7]));
+        r.setAllergy(Boolean.valueOf(arr[8]));
+        r.setDiabetes(Boolean.valueOf(arr[9]));
+        r.setBloodPressure(Boolean.valueOf(arr[10]));
+        return r;
+    }
+
+    Record getRecordFile(String fileName)throws IOException
+    {
+        FileReader fr=new FileReader(dir+recordFolder+fileName);
+        CSVReader reader=new CSVReader(fr);
+        reader.readNext();
+        String arr[]=reader.readNext();
+        Record r=new Record(arr[0],Long.valueOf(arr[1]));
+        r.updateMoney(Double.valueOf(arr[6]));
+        r.setAge(Integer.valueOf(arr[2]));
+        r.setFirstDate(arr[3]);
+        r.setLatestDate(arr[4]);
+        r.setDesc(arr[5]);
+        r.setHeartCondition(Boolean.valueOf(arr[7]));
+        r.setAllergy(Boolean.valueOf(arr[8]));
+        r.setDiabetes(Boolean.valueOf(arr[9]));
+        r.setBloodPressure(Boolean.valueOf(arr[10]));
+        return r;
+    }
+
+    Appointment getAppointmentFile(String name, String date)throws IOException
+    {
+        String fileName=name+" "+date+".csv";
+        FileReader fr=new FileReader(dir+appointmentFolder+fileName);
+        CSVReader reader=new CSVReader(fr);
+        reader.readNext();
+        String arr[]=reader.readNext();
+        Slot s=new Slot(Double.valueOf(arr[5].split("-")[0]));
+        Appointment a=new Appointment(getRecordFile(arr[0]),arr[1],s);
+        a.setPrice(Double.valueOf(arr[3]));
+        a.setLab(getLabWorkFile(arr[4]));
+        a.setProcedure(arr[2]);
+        a.setPrescription(getPrescriptionFile(arr[6]));
+        return a;
+
+    }
+
     LabWork getLabWorkFile(String patientName,String sentDate)throws IOException
     {
-        FileReader fr=new FileReader(dir+"Lab Work/"+patientName+" "+sentDate+".csv");
+        FileReader fr=new FileReader(dir+labFolder+patientName+" "+sentDate+".csv");
         CSVReader reader=new CSVReader(fr);
         String LabWork[]=new String[1];
         //while(reader.readNext()!=labHeader)
         reader.readNext();
 
-             LabWork=reader.readNext();
+        LabWork=reader.readNext();
 
         LabWork lab=new LabWork();
         lab.setPatientName(patientName);
@@ -97,21 +169,56 @@ public class FileHandling {
 
     Prescription getPrescriptionFile(String patientName,String date)throws IOException
     {
-       FileReader fr=new FileReader(dir+"Prescriptions/"+patientName+" "+date+".csv");
-       CSVReader reader=new CSVReader(fr);
-       reader.readNext();
-       String nameDate[]=reader.readNext();
-       Prescription pre=new Prescription();
-       pre.setPatientName(patientName);
-       pre.setDate(date);
-       String temp[];
-       while((temp=reader.readNext())!=null)
-       {
-           pre.addMedicine(temp[2]);
-           pre.addInstruction(temp[3]);
-       }
-       return pre;
+        FileReader fr=new FileReader(dir+prescriptionFolder+patientName+" "+date+".csv");
+        CSVReader reader=new CSVReader(fr);
+        reader.readNext();
+        String nameDate[]=reader.readNext();
+        Prescription pre=new Prescription();
+        pre.setPatientName(patientName);
+        pre.setDate(date);
+        String temp[];
+        while((temp=reader.readNext())!=null)
+        {
+            pre.addMedicine(temp[2]);
+            pre.addInstruction(temp[3]);
+        }
+        return pre;
     }
 
+    LabWork getLabWorkFile(String fileName)throws IOException
+    {
+        FileReader fr=new FileReader(dir+labFolder+fileName);
+        CSVReader reader=new CSVReader(fr);
+        String LabWork[]=new String[1];
+        //while(reader.readNext()!=labHeader)
+        reader.readNext();
+
+        LabWork=reader.readNext();
+        LabWork lab=new LabWork();
+        lab.setPatientName(fileName.split(" ")[0]);
+        lab.setSentDate(fileName.split(" ")[1].split(".")[0]);
+        lab.setReceivedDate(LabWork[1]);
+        lab.setLabName(LabWork[2]);
+        lab.setWork(LabWork[3]);
+        return lab;
+    }
+
+    Prescription getPrescriptionFile(String fileName)throws IOException
+    {
+        FileReader fr=new FileReader(dir+prescriptionFolder+fileName);
+        CSVReader reader=new CSVReader(fr);
+        reader.readNext();
+        String nameDate[]=reader.readNext();
+        Prescription pre=new Prescription();
+        pre.setPatientName(fileName.split(" ")[0]);
+        pre.setDate(fileName.split(" ")[1].split(".")[0]);
+        String temp[];
+        while((temp=reader.readNext())!=null)
+        {
+            pre.addMedicine(temp[2]);
+            pre.addInstruction(temp[3]);
+        }
+        return pre;
+    }
 
 }
