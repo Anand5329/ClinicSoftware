@@ -5,6 +5,7 @@ public class Appointment {
     String date;
     String procedure;
     double price;
+    double paid;
     Slot time;
     LabWork lab;
     Prescription prescription;
@@ -14,6 +15,7 @@ public class Appointment {
         this.date = date;
         this.procedure = procedure;
         this.price = price;
+        paid=0;
         if(time!=null)
             this.time=time;
         else
@@ -26,8 +28,8 @@ public class Appointment {
         this(null, "", "", 0,null);
     }
 
-    Appointment(Record patient, String date) {
-        this(patient, date, "", 0,null);
+    Appointment(Record patient, String date,Slot t1) {
+        this(patient, date, "", 0,t1);
     }
 
     Record getPatient() {
@@ -48,6 +50,16 @@ public class Appointment {
         return price;
     }
 
+    double getPaid()
+    {
+        return paid;
+    }
+
+    double getPending()
+    {
+        return (price-paid);
+    }
+
     Slot getTime()
     {
         return time;
@@ -60,6 +72,11 @@ public class Appointment {
     void setPrice(double price)
     {
         this.price=price;
+    }
+
+    void setPaid(double paid)
+    {
+        this.paid=paid;
     }
 
     void setTime(Slot time)
