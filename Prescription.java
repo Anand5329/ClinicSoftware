@@ -62,6 +62,16 @@ public class Prescription
         instruction.remove(index);
     }
 
+    void display()
+    {
+        int i=1,j=1;
+        System.out.println("Patient Name: "+getPatientName());
+        System.out.println("Date: "+getDate());
+        System.out.println("Medicines\t\tInstruction");
+        for(int a=0;a<getMedicines().size();a++)
+        System.out.println(getMedicines().get(a)+"\t\t"+getInstruction().get(a));
+    }
+
 
 
 }
