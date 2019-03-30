@@ -8,9 +8,9 @@ public class FileHandling {
     private String appointmentHeader[]={"Record","Date","Procedure","Price","LabWork","Slot","Prescription"};
     private String scheduleHeader[]={"Slot","Appointment"};
     private String recordHeader[]={"Name","Phone No.","Age","First Date","Latest Date","Description","Money","Heart Condition","Allergy","Diabetes","Blood Pressure"};
-    private String labHeader[]={"Sent Date","Received Date","Lab Name","Description"};
-    private String prescriptionHeader[]={"Date","Medicine Name","Instruction"};
-    private String dir="C:/Anand/Code Projects!/Directories/";
+    private String labHeader[]={"Sent Date","Received Date","Lab Name","Description","Patient Name"};
+    private String prescriptionHeader[]={"Patient Name","Date","Medicine Name","Instruction"};
+    private String dir="D:/Java-Blue J/src/ClinicSoftware/";
 
     void createRecordFile(Record patient)throws IOException
     {
@@ -28,7 +28,7 @@ public class FileHandling {
         FileWriter fw =new FileWriter(dir+"Lab Work/"+lab.getPatientName()+" "+lab.getSentDate()+".csv");
         CSVWriter writer=new CSVWriter(fw);
         writer.writeNext(labHeader);
-        String labDetails[]={lab.getSentDate(),lab.getReceivedDate(),lab.getLabName(),lab.getWork()};
+        String labDetails[]={lab.getSentDate(),lab.getReceivedDate(),lab.getLabName(),lab.getWork(),lab.getPatientName()};
         writer.writeNext(labDetails);
         writer.close();
         fw.close();
@@ -39,12 +39,12 @@ public class FileHandling {
         FileWriter fw = new FileWriter(dir+"Prescriptions/" + prescription.getPatientName() + " " + prescription.getDate() + ".csv");
         CSVWriter writer = new CSVWriter(fw);
         writer.writeNext(prescriptionHeader);
-        String prescriptionDetails[]={prescription.getDate()};
+        String prescriptionDetails[]={prescription.getPatientName(),prescription.getDate()};
 
         writer.writeNext(prescriptionDetails);
         for(int i=0;i<prescription.getMedicines().size();i++)
         {
-            String temp[]={"",prescription.getMedicines().get(i),prescription.getInstruction().get(i)};
+            String temp[]={"","",prescription.getMedicines().get(i),prescription.getInstruction().get(i)};
             writer.writeNext(temp);
         }
         writer.close();
@@ -74,6 +74,43 @@ public class FileHandling {
         }
         writer.close();
         fw.close();
+    }
+
+    LabWork getLabWorkFile(String patientName,String sentDate)throws IOException
+    {
+        FileReader fr=new FileReader(dir+"Lab Work/"+patientName+" "+sentDate+".csv");
+        CSVReader reader=new CSVReader(fr);
+        String LabWork[]=new String[1];
+        //while(reader.readNext()!=labHeader)
+        reader.readNext();
+
+             LabWork=reader.readNext();
+
+        LabWork lab=new LabWork();
+        lab.setPatientName(patientName);
+        lab.setSentDate(sentDate);
+        lab.setReceivedDate(LabWork[1]);
+        lab.setLabName(LabWork[2]);
+        lab.setWork(LabWork[3]);
+        return lab;
+    }
+
+    Prescription getPrescriptionFile(String patientName,String date)throws IOException
+    {
+       FileReader fr=new FileReader(dir+"Prescriptions/"+patientName+" "+date+".csv");
+       CSVReader reader=new CSVReader(fr);
+       reader.readNext();
+       String nameDate[]=reader.readNext();
+       Prescription pre=new Prescription();
+       pre.setPatientName(patientName);
+       pre.setDate(date);
+       String temp[];
+       while((temp=reader.readNext())!=null)
+       {
+           pre.addMedicine(temp[2]);
+           pre.addInstruction(temp[3]);
+       }
+       return pre;
     }
 
 
