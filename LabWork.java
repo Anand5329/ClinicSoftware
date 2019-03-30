@@ -63,4 +63,13 @@ public class LabWork
     }
 
     void setPatientName(String patientName) {this.patientName=patientName;}
+
+    void display()
+    {
+        System.out.println("Patient Name" +getPatientName());
+        System.out.println("Sent Date: "+getSentDate());
+        System.out.println("Received Date: "+getReceivedDate());
+        System.out.println("Lab Name: "+getLabName());
+        System.out.println("Work: "+getWork());
+    }
 }
