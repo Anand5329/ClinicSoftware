@@ -98,6 +98,10 @@ public class Appointment {
         lab.setWork(work);
         lab.setPatientName(patient.getName());
     }
+    void setLab(LabWork lab)
+    {
+        this.lab=lab;
+    }
 
     void setPrescription(String date)
     {
