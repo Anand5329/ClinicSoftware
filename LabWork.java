@@ -40,6 +40,8 @@ public class LabWork
 
     String getPatientName(){return patientName;}
 
+    String getFileName(){return patientName+" "+sentDate;}
+
     //setters:
 
     void setSentDate(String sentDate)

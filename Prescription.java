@@ -28,6 +28,8 @@ public class Prescription
 
     String getPatientName() {return patientName;}
 
+    String getFileName(){return patientName+" "+date;}
+
     LinkedList<String> getMedicines()
     {
         return medicines;
