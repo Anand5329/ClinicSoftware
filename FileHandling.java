@@ -10,7 +10,7 @@ public class FileHandling {
     private String recordHeader[]={"Name","Phone No.","Age","First Date","Latest Date","Description","Money","Heart Condition","Allergy","Diabetes","Blood Pressure"};
     private String labHeader[]={"Patient Name","Sent Date","Received Date","Lab Name","Description"};
     private String prescriptionHeader[]={"Date","Medicine Name","Instruction"};
-    private String dir="C:/Anand/Code Projects!/Directories/";
+    private String dir="D:\\Java-Blue J\\src\\ClinicSoftware\\";
 
     String recordFolder="Records/";
     String appointmentFolder="Appointments/";
@@ -55,12 +55,11 @@ public class FileHandling {
         FileWriter fw = new FileWriter(dir+prescriptionFolder + prescription.getPatientName() + " " + prescription.getDate() + ".csv");
         CSVWriter writer = new CSVWriter(fw);
         writer.writeNext(prescriptionHeader);
-        String prescriptionDetails[]={prescription.getDate()};
-
-        writer.writeNext(prescriptionDetails);
+        //String prescriptionDetails[]={prescription.getDate()};
+        //writer.writeNext(prescriptionDetails);
         for(int i=0;i<prescription.getMedicines().size();i++)
         {
-            String temp[]={"",prescription.getMedicines().get(i),prescription.getInstruction().get(i)};
+            String temp[]={prescription.getMedicines().get(i),prescription.getInstruction().get(i)};
             writer.writeNext(temp);
         }
         writer.close();
@@ -172,7 +171,7 @@ public class FileHandling {
 
     LabWork readLabWorkFile(String fileName)throws IOException
     {
-       return readLabWorkFile(fileName.split(" ")[0],fileName.split(" ")[1]);
+        return readLabWorkFile(fileName.split(" ")[0],fileName.split(" ")[1]);
     }
 
     Prescription readPrescriptionFile(String patientName,String date)throws IOException
@@ -180,15 +179,15 @@ public class FileHandling {
         FileReader fr=new FileReader(dir+prescriptionFolder+patientName+" "+date+".csv");
         CSVReader reader=new CSVReader(fr);
         reader.readNext();
-        String nameDate[]=reader.readNext();
+        //String nameDate[]=reader.readNext();
         Prescription pre=new Prescription();
         pre.setPatientName(patientName);
         pre.setDate(date);
         String temp[];
         while((temp=reader.readNext())!=null)
         {
-            pre.addMedicine(temp[2]);
-            pre.addInstruction(temp[3]);
+            pre.addMedicine(temp[0]);
+            pre.addInstruction(temp[1]);
         }
         return pre;
     }
@@ -204,7 +203,7 @@ public class FileHandling {
         CSVReader reader=new CSVReader(fr);
         reader.readNext();
         List<String[]> list=reader.readAll();
-        Schedule sc=new Schedule(0,fileName);
+        Schedule sc=new Schedule(fileName);
         for(String s[] : list)
         {
             String time[]=s[0].split(" - ");
