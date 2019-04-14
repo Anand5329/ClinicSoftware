@@ -2,15 +2,13 @@ package ClinicSoftware;
 import java.util.*;
 public class Schedule
 {
-    int no_of_appointments;
     LinkedList<Slot> time;
     LinkedList<Appointment> patients;
     String date;
     int patient_counter;
 
-    Schedule(int no_of_appointments, String date)
+    Schedule(String date)
     {
-        this.no_of_appointments=no_of_appointments;
         this.date=date;
         this.time=new LinkedList<Slot>();
         this.patients=new LinkedList<Appointment>();
@@ -19,12 +17,7 @@ public class Schedule
 
     Schedule()
     {
-        this(0,"");
-    }
-
-    int getNoOfAppointments()
-    {
-        return no_of_appointments;
+        this("");
     }
 
     String getDate()
@@ -76,7 +69,7 @@ public class Schedule
     void addBreak()
     {
         Record b=new Record("Break",0);
-        Appointment Break=new Appointment(b,"");
+        Appointment Break=new Appointment(b,"",null);
         add(Break);
     }
 
