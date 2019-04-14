@@ -123,11 +123,21 @@ public class Record
 
     String getFileName()
     {
-        return name+"\t"+phone;
+        return name+" "+phone;
     }
 
     void display()
     {
-        System.out.println(name+"\n"+phone+"\n"+age+"\n"+first_date+"\n"+latest_date+"\n"+desc+"\n"+money+"\n"+heart_condition+"\n"+allergy+"\n"+diabetes+"\n"+blood_pressure);
+        System.out.println("Name: "+name+);
+        System.out.println("Phone No.: "+phone);
+        System.out.println("Age: "+age);
+        System.out.println("First Date: "+first_date);
+        System.out.println("Latest Date:"+latest_date);
+        System.out.println("Description: "+desc);
+        System.out.println("Total Money Paid: "+money);
+        System.out.println("Heart Condition: "+heart_condition);
+        System.out.println("Allergies: "+allergy);
+        System.out.println("Diabetes: "+diabetes);
+        System.out.println("High Blood Pressure: "+blood_pressure);
     }
 }
