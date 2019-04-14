@@ -1,6 +1,5 @@
 package ClinicSoftware;
 
-import java.util.*;
 public class Record
 {
     private String name;
@@ -88,6 +87,11 @@ public class Record
         desc=d;
     }
 
+    void setFirstDate(String date)
+    {
+        first_date=date;
+    }
+
     void setLatestDate(String ld)
     {
         latest_date=ld;
@@ -120,5 +124,10 @@ public class Record
     String getFileName()
     {
         return name+"\t"+phone;
+    }
+
+    void display()
+    {
+        System.out.println(name+"\n"+phone+"\n"+age+"\n"+first_date+"\n"+latest_date+"\n"+desc+"\n"+money+"\n"+heart_condition+"\n"+allergy+"\n"+diabetes+"\n"+blood_pressure);
     }
 }
