@@ -10,7 +10,7 @@ public class FileHandling {
     private String recordHeader[]={"Name","Phone No.","Age","First Date","Latest Date","Description","Money","Heart Condition","Allergy","Diabetes","Blood Pressure"};
     private String labHeader[]={"Patient Name","Sent Date","Received Date","Lab Name","Description"};
     private String prescriptionHeader[]={"Date","Medicine Name","Instruction"};
-    private String dir="D:\\Java-Blue J\\src\\ClinicSoftware\\";
+    private String dir="C:/Anand/Code Projects!/Directories/";
 
     String recordFolder="Records/";
     String appointmentFolder="Appointments/";
@@ -95,7 +95,21 @@ public class FileHandling {
     Record readRecordFile(String name,long phone)throws IOException
     {
         String fileName=name+" "+phone+".csv";
-        return readRecordFile(fileName);
+        FileReader fr=new FileReader(dir+recordFolder+fileName);
+        CSVReader reader=new CSVReader(fr);
+        reader.readNext();
+        String arr[]=reader.readNext();
+        Record r=new Record(arr[0],Long.valueOf(arr[1]));
+        r.updateMoney(Double.valueOf(arr[6]));
+        r.setAge(Integer.valueOf(arr[2]));
+        r.setFirstDate(arr[3]);
+        r.setLatestDate(arr[4]);
+        r.setDesc(arr[5]);
+        r.setHeartCondition(Boolean.valueOf(arr[7]));
+        r.setAllergy(Boolean.valueOf(arr[8]));
+        r.setDiabetes(Boolean.valueOf(arr[9]));
+        r.setBloodPressure(Boolean.valueOf(arr[10]));
+        return r;
     }
 
     Record readRecordFile(String fileName)throws IOException
@@ -120,6 +134,11 @@ public class FileHandling {
     Appointment readAppointmentFile(String name, String date)throws IOException
     {
         String fileName=name+" "+date+".csv";
+        return readAppointmentFile(fileName);
+    }
+
+    Appointment readAppointmentFile(String fileName)throws IOException
+    {
         FileReader fr=new FileReader(dir+appointmentFolder+fileName);
         CSVReader reader=new CSVReader(fr);
         reader.readNext();
@@ -131,48 +150,40 @@ public class FileHandling {
         a.setProcedure(arr[2]);
         a.setPrescription(readPrescriptionFile(arr[6]));
         return a;
-
     }
 
     LabWork readLabWorkFile(String patientName,String sentDate)throws IOException
     {
-     String fileName=patientName+" "+sentDate+".csv";
-     return readLabWorkFile(fileName);
-    }
-
-    Prescription readPrescriptionFile(String patientName,String date)throws IOException
-    {
-        String fileName=patientName+" "+date+".csv";
-        return readPrescriptionFile(fileName);
-    }
-
-    LabWork readLabWorkFile(String fileName)throws IOException
-    {
-        FileReader fr=new FileReader(dir+labFolder+fileName);
+        FileReader fr=new FileReader(dir+labFolder+patientName+" "+sentDate+".csv");
         CSVReader reader=new CSVReader(fr);
-        String LabWork[]=new String[1];
-        //while(reader.readNext()!=labHeader)
+        String LabWork[];
         reader.readNext();
 
         LabWork=reader.readNext();
+
         LabWork lab=new LabWork();
-        lab.setPatientName(fileName.split(" ")[0]);
-        lab.setSentDate(fileName.split(" ")[1].split(".")[0]);
+        lab.setPatientName(patientName);
+        lab.setSentDate(sentDate);
         lab.setReceivedDate(LabWork[1]);
         lab.setLabName(LabWork[2]);
         lab.setWork(LabWork[3]);
         return lab;
     }
 
-    Prescription readPrescriptionFile(String fileName)throws IOException
+    LabWork readLabWorkFile(String fileName)throws IOException
     {
-        FileReader fr=new FileReader(dir+prescriptionFolder+fileName);
+       return readLabWorkFile(fileName.split(" ")[0],fileName.split(" ")[1]);
+    }
+
+    Prescription readPrescriptionFile(String patientName,String date)throws IOException
+    {
+        FileReader fr=new FileReader(dir+prescriptionFolder+patientName+" "+date+".csv");
         CSVReader reader=new CSVReader(fr);
         reader.readNext();
-        //String nameDate[]=reader.readNext();
+        String nameDate[]=reader.readNext();
         Prescription pre=new Prescription();
-        pre.setPatientName(fileName.split(" ")[0]);
-        pre.setDate(fileName.split(" ")[1].split(".")[0]);
+        pre.setPatientName(patientName);
+        pre.setDate(date);
         String temp[];
         while((temp=reader.readNext())!=null)
         {
@@ -180,6 +191,29 @@ public class FileHandling {
             pre.addInstruction(temp[3]);
         }
         return pre;
+    }
+
+    Prescription readPrescriptionFile(String fileName)throws IOException
+    {
+        return readPrescriptionFile(fileName.split(" ")[0],fileName.split(" ")[1]);
+    }
+
+    Schedule readScheduleFile(String fileName)throws IOException
+    {
+        FileReader fr=new FileReader(dir+prescriptionFolder+fileName);
+        CSVReader reader=new CSVReader(fr);
+        reader.readNext();
+        List<String[]> list=reader.readAll();
+        Schedule sc=new Schedule(0,fileName);
+        for(String s[] : list)
+        {
+            String time[]=s[0].split(" - ");
+            Slot sl=new Slot(Double.valueOf(time[1])-Double.valueOf(time[0]),Double.valueOf(time[0]));
+            Appointment a=readAppointmentFile(dir+s[1]);
+            sc.addTime(sl);
+            sc.add(a);
+        }
+        return sc;
     }
 
 }
