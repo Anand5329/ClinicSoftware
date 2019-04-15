@@ -109,6 +109,11 @@ public class Appointment {
         prescription.setPatientName(patient.getName());
     }
 
+    void setPrescription(Prescription p)
+    {
+        this.prescription=p;
+    }
+
     LabWork getLab()
     {
         return lab;
@@ -117,5 +122,12 @@ public class Appointment {
     Prescription getPrescription()
     {
         return prescription;
+    }
+
+    void display()
+    {
+        patient.display();
+        System.out.println("\n"+date+"\n"+time.displaySlot());
+        prescription.display();
     }
 }
