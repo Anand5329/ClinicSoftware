@@ -57,6 +57,12 @@ public class Prescription
         this.instruction.add(instruction);
     }
 
+    void addMedicineEntry(String medicine,String instruction)
+    {
+        this.addMedicine(medicine);
+        this.addInstruction(instruction);
+    }
+
     void remove(String medicine)
     {
         int index=medicines.indexOf(medicine);
