@@ -120,13 +120,13 @@ public class FileHandling {
 
     Appointment readAppointmentFile(String name, String date)throws IOException
     {
-        String fileName=name+" "+date+".csv";
+        String fileName=name+" "+date;
         return readAppointmentFile(fileName);
     }
 
     Appointment readAppointmentFile(String fileName)throws IOException
     {
-        FileReader fr=new FileReader(dir+appointmentFolder+fileName);
+        FileReader fr=new FileReader(dir+appointmentFolder+fileName+".csv");
         CSVReader reader=new CSVReader(fr);
         reader.readNext();
         String arr[]=reader.readNext();
@@ -225,6 +225,12 @@ public class FileHandling {
             return true;
         else
             return false;
+    }
+
+    boolean deleteAppointment(String name,String date)
+    {
+        String fileName=name+" "+date;
+        return deleteAppointment(fileName);
     }
 
 }
