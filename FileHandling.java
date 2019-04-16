@@ -10,7 +10,8 @@ public class FileHandling {
     private String recordHeader[]={"Name","Phone No.","Age","First Date","Latest Date","Description","Money","Heart Condition","Allergy","Diabetes","Blood Pressure"};
     private String labHeader[]={"Patient Name","Sent Date","Received Date","Lab Name","Description"};
     private String prescriptionHeader[]={"Date","Medicine Name","Instruction"};
-    private String dir="D:\\Java-Blue J\\src\\ClinicSoftware\\";
+
+    private String dir="C:/Anand/Code Projects!/Directories/";
 
     String recordFolder="Records/";
     String appointmentFolder="Appointments/";
@@ -55,11 +56,12 @@ public class FileHandling {
         FileWriter fw = new FileWriter(dir+prescriptionFolder + prescription.getPatientName() + " " + prescription.getDate() + ".csv");
         CSVWriter writer = new CSVWriter(fw);
         writer.writeNext(prescriptionHeader);
-        //String prescriptionDetails[]={prescription.getDate()};
-        //writer.writeNext(prescriptionDetails);
+        String prescriptionDetails[]={prescription.getDate()};
+
+        writer.writeNext(prescriptionDetails);
         for(int i=0;i<prescription.getMedicines().size();i++)
         {
-            String temp[]={prescription.getMedicines().get(i),prescription.getInstruction().get(i)};
+            String temp[]={"",prescription.getMedicines().get(i),prescription.getInstruction().get(i)};
             writer.writeNext(temp);
         }
         writer.close();
@@ -68,10 +70,10 @@ public class FileHandling {
 
     void createAppointmentFile(Appointment a)throws IOException
     {
-        FileWriter fw=new FileWriter(dir+appointmentFolder+a.getPatient().getName()+" "+a.getDate()+".csv");
+        FileWriter fw=new FileWriter(dir+appointmentFolder+a.getRecord().getName()+" "+a.getDate()+".csv");
         CSVWriter writer=new CSVWriter(fw);
         writer.writeNext(appointmentHeader);
-        String[] dat={a.getPatient().getFileName(),a.getDate(),a.getProcedure(),""+a.getPrice(),a.getLab().getPatientName()+" "+a.getLab().getSentDate()+".csv",a.getTime().displaySlot(),a.getPrescription().getPatientName()+" "+a.getPrescription().getDate()+".csv"};
+        String[] dat={a.getRecord().getFileName(),a.getDate(),a.getProcedure(),""+a.getPrice(),a.getLab().getPatientName()+" "+a.getLab().getSentDate(),a.getTime().displaySlot(),a.getPrescription().getPatientName()+" "+a.getPrescription().getDate()};
         writer.writeNext(dat);
         writer.close();
         fw.close();
@@ -84,7 +86,7 @@ public class FileHandling {
         writer.writeNext(scheduleHeader);
         for(int i=0;i<s.getSlots().size();i++)
         {
-            String entry[]={s.getSlots().get(i).displaySlot(),appointmentFolder+s.getAppointments().get(i).getPatient().getName()+" "+s.getAppointments().get(i).getPatient().getPhone()+".csv"};
+            String entry[]={s.getSlots().get(i).displaySlot(),s.getAppointments().get(i).getRecord().getName()+" "+s.getAppointments().get(i).getDate()+".csv"};
             writer.writeNext(entry);
         }
         writer.close();
@@ -93,27 +95,13 @@ public class FileHandling {
 
     Record readRecordFile(String name,long phone)throws IOException
     {
-        String fileName=name+" "+phone+".csv";
-        FileReader fr=new FileReader(dir+recordFolder+fileName);
-        CSVReader reader=new CSVReader(fr);
-        reader.readNext();
-        String arr[]=reader.readNext();
-        Record r=new Record(arr[0],Long.valueOf(arr[1]));
-        r.updateMoney(Double.valueOf(arr[6]));
-        r.setAge(Integer.valueOf(arr[2]));
-        r.setFirstDate(arr[3]);
-        r.setLatestDate(arr[4]);
-        r.setDesc(arr[5]);
-        r.setHeartCondition(Boolean.valueOf(arr[7]));
-        r.setAllergy(Boolean.valueOf(arr[8]));
-        r.setDiabetes(Boolean.valueOf(arr[9]));
-        r.setBloodPressure(Boolean.valueOf(arr[10]));
-        return r;
+        String fileName=name+" "+phone;
+        return readRecordFile(fileName);
     }
 
     Record readRecordFile(String fileName)throws IOException
     {
-        FileReader fr=new FileReader(dir+recordFolder+fileName);
+        FileReader fr=new FileReader(dir+recordFolder+fileName+".csv");
         CSVReader reader=new CSVReader(fr);
         reader.readNext();
         String arr[]=reader.readNext();
@@ -171,7 +159,10 @@ public class FileHandling {
 
     LabWork readLabWorkFile(String fileName)throws IOException
     {
-        return readLabWorkFile(fileName.split(" ")[0],fileName.split(" ")[1]);
+        if(!fileName.equals(" "))
+            return readLabWorkFile(fileName.split(" ")[0],fileName.split(" ")[1]);
+        else
+            return null;
     }
 
     Prescription readPrescriptionFile(String patientName,String date)throws IOException
@@ -179,27 +170,30 @@ public class FileHandling {
         FileReader fr=new FileReader(dir+prescriptionFolder+patientName+" "+date+".csv");
         CSVReader reader=new CSVReader(fr);
         reader.readNext();
-        //String nameDate[]=reader.readNext();
+        String nameDate[]=reader.readNext();
         Prescription pre=new Prescription();
         pre.setPatientName(patientName);
         pre.setDate(date);
         String temp[];
         while((temp=reader.readNext())!=null)
         {
-            pre.addMedicine(temp[0]);
-            pre.addInstruction(temp[1]);
+            pre.addMedicine(temp[2]);
+            pre.addInstruction(temp[3]);
         }
         return pre;
     }
 
     Prescription readPrescriptionFile(String fileName)throws IOException
     {
-        return readPrescriptionFile(fileName.split(" ")[0],fileName.split(" ")[1]);
+        if(!fileName.equals(" "))
+            return readPrescriptionFile(fileName.split(" ")[0],fileName.split(" ")[1]);
+        else
+            return null;
     }
 
     Schedule readScheduleFile(String fileName)throws IOException
     {
-        FileReader fr=new FileReader(dir+prescriptionFolder+fileName);
+        FileReader fr=new FileReader(dir+schedulesFolder+fileName+".csv");
         CSVReader reader=new CSVReader(fr);
         reader.readNext();
         List<String[]> list=reader.readAll();
@@ -208,11 +202,29 @@ public class FileHandling {
         {
             String time[]=s[0].split(" - ");
             Slot sl=new Slot(Double.valueOf(time[1])-Double.valueOf(time[0]),Double.valueOf(time[0]));
-            Appointment a=readAppointmentFile(dir+s[1]);
+            Appointment a=readAppointmentFile(s[1]);
             sc.addTime(sl);
             sc.add(a);
         }
         return sc;
+    }
+
+    boolean deleteSchedule(String fileName)
+    {
+        File file=new File(dir+schedulesFolder+fileName+".csv");
+        if(file.delete())
+            return true;
+        else
+            return false;
+    }
+
+    boolean deleteAppointment(String fileName)
+    {
+        File file=new File(dir+appointmentFolder+fileName+".csv");
+        if(file.delete())
+            return true;
+        else
+            return false;
     }
 
 }
