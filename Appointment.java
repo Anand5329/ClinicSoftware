@@ -32,7 +32,7 @@ public class Appointment {
         this(patient, date, "", 0,t1);
     }
 
-    Record getPatient() {
+    Record getRecord() {
         return patient;
     }
 
