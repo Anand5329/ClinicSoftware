@@ -233,4 +233,40 @@ public class FileHandling {
         return deleteAppointment(fileName);
     }
 
+
+    boolean deletePrescriptionFile(String fileName)
+    {
+        File file=new File("D:\\Java-Blue J\\src\\ClinicSoftware\\Prescriptions\\"+fileName+".csv");
+       return file.delete();
+}
+
+    boolean deleteLabWorkFile(String fileName)
+    {
+        File file =new File("D:\\Java-Blue J\\src\\ClinicSoftware\\Lab Work\\"+fileName+".csv");
+        return file.delete();
+    }
+
+    boolean deleteRecordFile(String fileName)
+    {
+        File file = new File("D:\\Java-Blue J\\src\\ClinicSoftware\\Records\\" + fileName + ".csv");
+        return file.delete();
+    }
+
+    boolean deletePrescriptionFile(String patientName,String date)
+        {
+        String fileName=patientName+" "+date;
+        return deletePrescriptionFile(fileName);
+    }
+
+    boolean deleteLabWorkFile(String patientName,String sentDate)
+    {
+        String fileName=patientName+" "+sentDate;
+        return deleteLabWorkFile(fileName);
+    }
+
+    boolean deleteRecordFile(String patientName,long phone)
+    {
+        String fileName=patientName+" "+phone;
+        return deletePrescriptionFile(fileName);
+    }
 }
