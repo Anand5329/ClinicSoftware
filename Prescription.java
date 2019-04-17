@@ -8,7 +8,7 @@ public class Prescription
     private LinkedList<String> medicines;
     private LinkedList<String> instruction;
 
-    Prescription(String date,String patientName)
+    Prescription(String patientName,String date)
     {
         this.date=date;
         this.patientName=patientName;
