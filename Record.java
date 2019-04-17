@@ -4,39 +4,39 @@ public class Record
 {
     private String name;
     private long phone;
-    private String first_date;
+    private Appointment first_appointment;
     private int age;
     private String desc;
-    private String latest_date;
+    private Appointment latest_appointment;
     private double money;
     private boolean heart_condition;
     private boolean allergy;
     private boolean blood_pressure;
     private boolean diabetes;
 
-    Record(String n, long p, String d1,int a, String d, String ldate, boolean hc, boolean all,boolean bp,boolean db)
+    Record(String name, long phone, Appointment first_appointment,int age, String description, Appointment latest_appointment, boolean heart_condition, boolean allergy,boolean blood_pressure,boolean diabetes)
     {
-        name=n;
-        phone=p;
-        first_date=d1;
-        age=a;
-        desc=d;
-        latest_date=ldate;
+        this.name=name;
+        this.phone=phone;
+        this.first_appointment=first_appointment;
+        this.age=age;
+        this.desc=description;
+        this.latest_appointment=latest_appointment;
         money=0;
-        heart_condition=hc;
-        allergy=all;
-        blood_pressure=bp;
-        diabetes=db;
+        this.heart_condition=heart_condition;
+        this.allergy=allergy;
+        this.blood_pressure=blood_pressure;
+        this.diabetes=diabetes;
     }
 
     Record()
     {
-        this("",0,"",-1,"","",false,false,false,false);
+        this("",0,null,-1,"",null,false,false,false,false);
     }
 
     Record(String n, long p)
     {
-        this(n, p, "", -1, "", "",false, false,false,false);
+        this(n, p, null, -1, "", null,false, false,false,false);
     }
 
     String getName()
@@ -49,9 +49,9 @@ public class Record
         return phone;
     }
 
-    String getFirstDate()
+    Appointment getFirstAppointment()
     {
-        return first_date;
+        return first_appointment;
     }
 
     int getAge()
@@ -64,9 +64,9 @@ public class Record
         return desc;
     }
 
-    String getLatestDate()
+    Appointment getLatestAppointment()
     {
-        return latest_date;
+        return latest_appointment;
     }
 
     double getMoney()
@@ -87,14 +87,14 @@ public class Record
         desc=d;
     }
 
-    void setFirstDate(String date)
+    void setFirstAppointment(Appointment first_appointment)
     {
-        first_date=date;
+        this.first_appointment=first_appointment;
     }
 
-    void setLatestDate(String ld)
+    void setLatestAppointment(Appointment latest_appointment)
     {
-        latest_date=ld;
+        this.latest_appointment=latest_appointment;
     }
 
     void setAge(int a)
@@ -117,7 +117,7 @@ public class Record
 
     void update(Appointment a)
     {
-        setLatestDate(a.getDate());
+        setLatestAppointment(a);
         updateMoney(a.getPrice());
     }
 
@@ -128,11 +128,11 @@ public class Record
 
     void display()
     {
-        System.out.println("Name: "+name+);
+        System.out.println("Name: "+name);
         System.out.println("Phone No.: "+phone);
         System.out.println("Age: "+age);
-        System.out.println("First Date: "+first_date);
-        System.out.println("Latest Date:"+latest_date);
+        System.out.println("First Date: "+first_appointment.getDate());
+        System.out.println("Latest Date:"+latest_appointment.getDate());
         System.out.println("Description: "+desc);
         System.out.println("Total Money Paid: "+money);
         System.out.println("Heart Condition: "+heart_condition);
