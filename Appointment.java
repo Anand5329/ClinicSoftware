@@ -64,6 +64,9 @@ public class Appointment {
     {
         return time;
     }
+
+    String getFileName(){return patient.getName()+" "+getDate();}
+
     void setProcedure(String procedure)
     {
         this.procedure=procedure;
