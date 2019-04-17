@@ -34,7 +34,7 @@ public class FileHandling {
         FileWriter fw=new FileWriter(dir+recordFolder+patient.getName()+" "+patient.getPhone()+".csv");
         CSVWriter writer=new CSVWriter(fw);
         writer.writeNext(recordHeader);
-        String recordDetails[]={patient.getName(),""+patient.getPhone(),""+patient.getAge(),patient.getFirstDate(),patient.getLatestDate(),patient.getDesc(),patient.getMoney()+"",patient.getHeartCondition()+"",patient.getAllergy()+"",patient.getDiabetes()+"",patient.getBloodPressure()+""};
+        String recordDetails[]={patient.getName(),""+patient.getPhone(),""+patient.getAge(),patient.getFirstAppointment().getFileName()+".csv",patient.getLatestAppointment().getFileName()+".csv",patient.getDesc(),patient.getMoney()+"",patient.getHeartCondition()+"",patient.getAllergy()+"",patient.getDiabetes()+"",patient.getBloodPressure()+""};
         writer.writeNext(recordDetails);
         writer.close();
         fw.close();
@@ -70,7 +70,7 @@ public class FileHandling {
 
     void createAppointmentFile(Appointment a)throws IOException
     {
-        FileWriter fw=new FileWriter(dir+appointmentFolder+a.getRecord().getName()+" "+a.getDate()+".csv");
+        FileWriter fw=new FileWriter(dir+appointmentFolder+a.getFileName()+".csv");
         CSVWriter writer=new CSVWriter(fw);
         writer.writeNext(appointmentHeader);
         String[] dat={a.getRecord().getFileName(),a.getDate(),a.getProcedure(),""+a.getPrice(),a.getLab().getPatientName()+" "+a.getLab().getSentDate(),a.getTime().displaySlot(),a.getPrescription().getPatientName()+" "+a.getPrescription().getDate()};
@@ -108,8 +108,8 @@ public class FileHandling {
         Record r=new Record(arr[0],Long.valueOf(arr[1]));
         r.updateMoney(Double.valueOf(arr[6]));
         r.setAge(Integer.valueOf(arr[2]));
-        r.setFirstDate(arr[3]);
-        r.setLatestDate(arr[4]);
+        r.setFirstAppointment(readAppointmentFile(arr[3]));
+        r.setLatestAppointment(readAppointmentFile(arr[4]));
         r.setDesc(arr[5]);
         r.setHeartCondition(Boolean.valueOf(arr[7]));
         r.setAllergy(Boolean.valueOf(arr[8]));
