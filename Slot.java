@@ -52,5 +52,19 @@ public class Slot
         return s;
     }
 
+    boolean isGreater(Slot s)
+    {
+        if(start_time>s.getStartTime())
+            return true;
+        else
+            return false;
+    }
+
+    Slot toSlot(String s)
+    {
+        String str[]=s.split("-");
+        Slot slot=new Slot(Double.valueOf(str[1])-Double.valueOf(str[0]),Double.valueOf(str[0]));
+        return slot;
+    }
 
 }
