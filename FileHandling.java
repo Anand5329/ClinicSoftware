@@ -302,4 +302,42 @@ public class FileHandling {
         String fileName=patientName+" "+date;
         return deletePrescriptionEntry(fileName,index);
     }
+
+    boolean addPrescriptionEntry(String fileName,String medicine,String instruction)throws IOException
+    {
+        boolean flag =true;
+        try {
+            FileWriter fw = new FileWriter("D:\\Java-Blue J\\src\\ClinicSoftware\\Prescriptions\\temp.csv");
+            CSVWriter writer = new CSVWriter(fw);
+            FileReader fr=new FileReader("D:\\Java-Blue J\\src\\ClinicSoftware\\Prescriptions\\"+fileName+".csv");
+            CSVReader reader=new CSVReader(fr);
+            String temp[];
+            while((temp=reader.readNext())!=null)
+            {
+                writer.writeNext(temp);
+            }
+            String medicinesArr[] = {medicine, instruction};
+            writer.writeNext(medicinesArr);
+            writer.close();
+            fw.close();
+            reader.close();
+            fr.close();
+            File file=new File("D:\\Java-Blue J\\src\\ClinicSoftware\\Prescriptions\\"+fileName+".csv");
+            if(!file.delete())
+                flag=false;
+            File temp2=new File("D:\\Java-Blue J\\src\\ClinicSoftware\\Prescriptions\\temp.csv");
+            temp2.renameTo(file);
+        }
+        catch(Exception e)
+        {
+            flag=false;
+        }
+        return flag;
+    }
+
+    boolean addPrescriptionEntry(String patientName,String date,String medicine,String instruction)throws IOException
+    {
+        String fileName=patientName+" "+date;
+        return addPrescriptionEntry(fileName,medicine,instruction);
+    }
 }
