@@ -48,7 +48,7 @@ public class FileHandling {
     }
 
     void createPrescriptionFile(Prescription prescription) throws IOException {
-        FileWriter fw = new FileWriter(dir + prescriptionFolder + prescription.getPatientName() + " " + prescription.getDate() + ".csv");
+        FileWriter fw = new FileWriter(dir + prescriptionFolder + prescription.getFileName() + ".csv");
         CSVWriter writer = new CSVWriter(fw);
         writer.writeNext(prescriptionHeader);
         //String prescriptionDetails[]={prescription.getDate()};
@@ -209,9 +209,9 @@ public class FileHandling {
 
     boolean deletePrescriptionFile(String fileName)
     {
-        File file=new File("D:\\Java-Blue J\\src\\ClinicSoftware\\Prescriptions\\"+fileName+".csv");
+        File file=new File(dir+prescriptionFolder+fileName+".csv");
        return file.delete();
-}
+    }
 
     boolean deleteLabWorkFile(String fileName)
     {
@@ -243,18 +243,17 @@ public class FileHandling {
         return deletePrescriptionFile(fileName);
     }
 
-    boolean deleteScheduleEntry(String fileName, int index) throws IOException {
+    boolean deleteScheduleEntry(String fileName, Slot slot) throws IOException {
         try {
             FileReader fr = new FileReader(dir + schedulesFolder + fileName + ".csv");
             CSVReader reader = new CSVReader(fr);
             FileWriter fw = new FileWriter(dir + schedulesFolder + "temp.csv");
             CSVWriter writer = new CSVWriter(fw);
-            int ctr = 0;
+            writer.writeNext(reader.readNext());
             String[] t;
             while ((t = reader.readNext()) != null) {
-                if (ctr != index)
+                if (!(Double.valueOf(t[0].split("-")[0])==slot.getStartTime()))
                     writer.writeNext(t);
-                ctr++;
             }
             reader.close();
             writer.close();
@@ -272,7 +271,7 @@ public class FileHandling {
         return true;
     }
 
-    boolean addScheduleEntry(String fileName, Appointment a, Slot s)throws IOException
+    boolean addScheduleEntry(String fileName, Appointment a, Slot s)
     {
         try{
         FileReader fr=new FileReader(dir+schedulesFolder+fileName+".csv");
@@ -286,12 +285,22 @@ public class FileHandling {
         {
             Slot e=new Slot();
             Slot n=e.toSlot(temp[0]);
-            if(s.isGreater(n))
-            {
-                String slot[]={s.displaySlot(),a.getFileName()};
-                writer.writeNext(slot);
+            String next[]=reader.readNext();
+            boolean isWritten=false;
+            if(next!=null) {
+                Slot m = e.toSlot(next[0]);
+                writer.writeNext(temp);
+                if (s.isGreater(n) && m.isGreater(s)){
+                    String slot[] = {s.displaySlot(), a.getFileName()};
+                    writer.writeNext(slot);
+                    isWritten=true;
+                }
+                writer.writeNext(next);
+                if(!isWritten) {
+                    String slot[] = {s.displaySlot(), a.getFileName()};
+                    writer.writeNext(slot);
+                }
             }
-            writer.writeNext(temp);
         }
         reader.close();
         writer.close();
@@ -314,27 +323,29 @@ public class FileHandling {
 
     boolean deletePrescriptionEntry(String fileName,int index)throws IOException
     {
-        FileReader fr=new FileReader("D:\\Java-Blue J\\src\\ClinicSoftware\\Prescriptions\\"+fileName+".csv");
+        FileReader fr=new FileReader(dir+prescriptionFolder+fileName+".csv");
         CSVReader reader=new CSVReader(fr);
-        FileWriter fw=new FileWriter("D:\\Java-Blue J\\src\\ClinicSoftware\\Prescriptions\\temp.csv");
+        FileWriter fw=new FileWriter(dir+prescriptionFolder+"temp.csv");
         CSVWriter writer=new CSVWriter(fw);
         int ctr=0;
         String temp2[];
-        while(ctr!=index && (temp2=reader.readNext())!=null)
+        while((temp2=reader.readNext())!=null)
         {
-            writer.writeNext(temp2);
+            if(ctr!=index) {
+                writer.writeNext(temp2);
+            }
             ctr++;
         }
-        File file=new File("D:\\Java-Blue J\\src\\ClinicSoftware\\Prescriptions\\"+fileName+".csv");
-        File temp=new File("D:\\Java-Blue J\\src\\ClinicSoftware\\Prescriptions\\temp.csv");
         boolean flag=true;
         reader.close();
-        fr.close();
         writer.close();
+        fr.close();
         fw.close();
+        File file=new File(dir+prescriptionFolder+fileName+".csv");
+        File nFile=new File(dir+prescriptionFolder+"temp.csv");
         if(!deletePrescriptionFile(fileName))
             flag=false;
-        if(!temp.renameTo(file))
+        if(!nFile.renameTo(file))
             flag=false;
         return flag;
     }
@@ -349,9 +360,9 @@ public class FileHandling {
     {
         boolean flag =true;
         try {
-            FileWriter fw = new FileWriter("D:\\Java-Blue J\\src\\ClinicSoftware\\Prescriptions\\temp.csv");
+            FileWriter fw = new FileWriter(dir+prescriptionFolder+"temp.csv");
             CSVWriter writer = new CSVWriter(fw);
-            FileReader fr=new FileReader("D:\\Java-Blue J\\src\\ClinicSoftware\\Prescriptions\\"+fileName+".csv");
+            FileReader fr=new FileReader(dir+prescriptionFolder+fileName+".csv");
             CSVReader reader=new CSVReader(fr);
             String temp[];
             while((temp=reader.readNext())!=null)
@@ -364,10 +375,10 @@ public class FileHandling {
             fw.close();
             reader.close();
             fr.close();
-            File file=new File("D:\\Java-Blue J\\src\\ClinicSoftware\\Prescriptions\\"+fileName+".csv");
+            File file=new File(dir+prescriptionFolder+fileName+".csv");
             if(!file.delete())
                 flag=false;
-            File temp2=new File("D:\\Java-Blue J\\src\\ClinicSoftware\\Prescriptions\\temp.csv");
+            File temp2=new File(dir+prescriptionFolder+"temp.csv");
             temp2.renameTo(file);
         }
         catch(Exception e)
@@ -381,5 +392,115 @@ public class FileHandling {
     {
         String fileName=patientName+" "+date;
         return addPrescriptionEntry(fileName,medicine,instruction);
+    }
+
+    boolean editScheduleEntry(String date, Slot s, Appointment newA)throws IOException
+    {
+        boolean flag=false;
+        if(deleteScheduleEntry(date, s))
+            if(addScheduleEntry(date, newA, s))
+                flag=true;
+        return flag;
+    }
+
+    boolean addPrescriptionEntry(String fileName,String medicine,String instruction,int predecessorIndex)throws IOException
+    {
+        boolean flag =true;
+        //try
+        {
+            FileWriter fw = new FileWriter(dir+prescriptionFolder+"temp.csv");
+            CSVWriter writer = new CSVWriter(fw);
+            FileReader fr=new FileReader(dir+prescriptionFolder+fileName+".csv");
+            CSVReader reader=new CSVReader(fr);
+            String temp[];
+            int ctr=0;
+            writer.writeNext(reader.readNext());
+            String medicinesArr[] = {medicine, instruction};
+            while(true)
+            {
+                temp=reader.readNext();
+                if(ctr==predecessorIndex) {
+                    writer.writeNext(medicinesArr);
+                    ctr++;
+                    writer.writeNext(temp);
+                }
+                else
+                {
+                    writer.writeNext(temp);
+                    ctr++;
+                }
+                if(temp==null) {
+                    if(ctr<predecessorIndex)
+                        writer.writeNext(medicinesArr);
+                    break;
+                }
+            }
+            writer.close();
+            fw.close();
+            reader.close();
+            fr.close();
+            File file=new File(dir+prescriptionFolder+fileName+".csv");
+            if(!file.delete())
+                flag=false;
+            File temp2=new File(dir+prescriptionFolder+"temp.csv");
+            temp2.renameTo(file);
+        }
+        //catch(Exception e)
+        {
+            //flag=false;
+        }
+        return flag;
+    }
+
+    boolean addPrescriptionEntry(String patientName,String date,String medicine,String instruction,int index)throws IOException
+    {
+        String fileName=patientName+" "+date;
+        return addPrescriptionEntry(fileName,medicine,instruction,index);
+    }
+
+    boolean editPrescriptionEntry(String fileName,String medDel,String medEnter,String instructionEnter)throws IOException
+    {
+        boolean flag=true;
+        int index=getPrescriptionIndex(fileName,medDel);
+        if(!deletePrescriptionEntry(fileName,index))
+            flag=false;
+        if(!addPrescriptionEntry(fileName,medEnter,instructionEnter))
+            flag=false;
+        return flag;
+    }
+
+    int getPrescriptionIndex(String fileName,String medicine)throws IOException
+    {
+        int ctr=1;
+        FileReader fr=new FileReader(dir+prescriptionFolder+fileName+".csv");
+        CSVReader reader=new CSVReader(fr);
+        String temp[];
+        reader.readNext();
+        while((temp=reader.readNext())!=null)
+        {
+            if(temp[0].equals(medicine)) {
+                reader.close();
+                fr.close();
+                return ctr;
+            }
+            else
+                ctr++;
+        }
+        reader.close();
+        fr.close();
+        return ctr;
+    }
+
+    int getPrescriptionLastIndex(String fileName)throws IOException
+    {
+        FileReader fr=new FileReader(dir+prescriptionFolder+fileName+".csv");
+        CSVReader reader=new CSVReader(fr);
+        int ctr=0;
+        reader.readNext();
+        while(reader.readNext()!=null)
+        {
+            ctr++;
+        }
+        return ctr;
     }
 }
