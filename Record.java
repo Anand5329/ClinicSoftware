@@ -3,7 +3,7 @@ package ClinicSoftware;
 public class Record
 {
     private String name;
-    private long phone;
+    private String phone;
     private Appointment first_appointment;
     private int age;
     private String desc;
@@ -14,7 +14,7 @@ public class Record
     private boolean blood_pressure;
     private boolean diabetes;
 
-    Record(String name, long phone, Appointment first_appointment,int age, String description, Appointment latest_appointment, boolean heart_condition, boolean allergy,boolean blood_pressure,boolean diabetes)
+    Record(String name, String phone, Appointment first_appointment,int age, String description, Appointment latest_appointment, boolean heart_condition, boolean allergy,boolean blood_pressure,boolean diabetes)
     {
         this.name=name;
         this.phone=phone;
@@ -31,10 +31,10 @@ public class Record
 
     Record()
     {
-        this("",0,null,-1,"",null,false,false,false,false);
+        this("","",null,-1,"",null,false,false,false,false);
     }
 
-    Record(String n, long p)
+    Record(String n, String p)
     {
         this(n, p, null, -1, "", null,false, false,false,false);
     }
@@ -44,7 +44,7 @@ public class Record
         return name;
     }
 
-    long getPhone()
+    String getPhone()
     {
         return phone;
     }
