@@ -151,7 +151,10 @@ public class ScheduleFile extends ClinicFile {
         Exception e=null;
         if((e=deleteEntry(s))==null)
             if((e=addEntry(newA, s))==null)
+            {
+                newA.setTime(s);
                 return e;
+            }
             else
                 return e;
         else
