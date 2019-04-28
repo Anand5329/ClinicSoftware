@@ -25,6 +25,8 @@ public class Schedule
         return date;
     }
 
+    String getFileName(){ return date;}
+
     int getPatientCounter()
     {
         return patient_counter;
@@ -68,7 +70,7 @@ public class Schedule
 
     void addBreak()
     {
-        Record b=new Record("Break",0);
+        Record b=new Record("Break","");
         Appointment Break=new Appointment(b,"",null);
         add(Break);
     }
