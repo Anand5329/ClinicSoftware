@@ -7,7 +7,7 @@ public class Schedule
     String date;
     int patient_counter;
 
-    Schedule(String date)
+    public Schedule(String date)
     {
         this.date=date;
         this.time=new LinkedList<Slot>();
@@ -15,41 +15,41 @@ public class Schedule
         patient_counter=0;
     }
 
-    Schedule()
+    public Schedule()
     {
         this("");
     }
 
-    String getDate()
+    public String getDate()
     {
         return date;
     }
 
-    String getFileName(){ return date;}
+    public String getFileName(){ return date;}
 
-    int getPatientCounter()
+    public int getPatientCounter()
     {
         return patient_counter;
     }
 
-    LinkedList<Slot> getSlots()
+    public LinkedList<Slot> getSlots()
     {
         return time;
     }
 
-    LinkedList<Appointment> getAppointments()
+    public LinkedList<Appointment> getAppointments()
     {
         return patients;
     }
 
-    void add(Appointment a)
+    public void add(Appointment a)
     {
         addTime(a.getTime());
         patients.add(a);
         patient_counter++;
     }
 
-    void addTime(Slot s)
+    public void addTime(Slot s)
     {
         if(s.getStartTime()==0&&!time.isEmpty())
         {
@@ -58,7 +58,7 @@ public class Schedule
         time.add(s);
     }
 
-    void display()
+    public void display()
     {
         System.out.println("Schedule for "+date+"\n");
         System.out.println("Time Slot\t\t\tPatient\t\t\tProcedure");
@@ -68,21 +68,21 @@ public class Schedule
         }
     }
 
-    void addBreak()
+    public void addBreak()
     {
         Record b=new Record("Break","");
         Appointment Break=new Appointment(b,"",null);
         add(Break);
     }
 
-    void remove(Appointment patient)
+    public void remove(Appointment patient)
     {
         int index=patients.indexOf(patient);
         patients.remove(patient);
         time.remove(index);
     }
 
-    void remove(Slot time)
+    public void remove(Slot time)
     {
         int index=this.time.indexOf(time);
         this.time.remove(time);

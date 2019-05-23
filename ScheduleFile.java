@@ -12,7 +12,7 @@ public class ScheduleFile extends ClinicFile {
     private String[] header = {"Slot", "Appointment"};
     private String fileName = "";
 
-    ScheduleFile(Schedule sch) throws IOException {
+    public ScheduleFile(Schedule sch) throws IOException {
         Exception e=null;
         fileName = sch.getFileName();
         if(!isFilePresent(dir,folderName,fileName))
@@ -22,13 +22,13 @@ public class ScheduleFile extends ClinicFile {
                 e.printStackTrace();
     }
 
-    ScheduleFile(String fileName)
+    public ScheduleFile(String fileName)
     {
         this.fileName=fileName;
     }
 
 
-    Exception createFile(Schedule s) {
+    public Exception createFile(Schedule s) {
         try {
             FileWriter fw = new FileWriter(dir + folderName + s.getDate() + ".csv");
             CSVWriter writer = new CSVWriter(fw);
@@ -47,7 +47,7 @@ public class ScheduleFile extends ClinicFile {
         return null;
     }
 
-    Schedule readFile() throws IOException {
+    public Schedule readFile() throws IOException {
         FileReader fr = new FileReader(dir + folderName + fileName + ".csv");
         CSVReader reader = new CSVReader(fr);
         reader.readNext();
@@ -64,12 +64,12 @@ public class ScheduleFile extends ClinicFile {
         return sc;
     }
 
-    boolean deleteFile() {
+    public boolean deleteFile() {
         File file = new File(dir + folderName + fileName + ".csv");
         return file.delete();
     }
 
-    Exception deleteEntry(Slot slot) {
+    public Exception deleteEntry(Slot slot) {
         try {
             FileReader fr = new FileReader(dir + folderName + fileName + ".csv");
             CSVReader reader = new CSVReader(fr);
@@ -97,7 +97,7 @@ public class ScheduleFile extends ClinicFile {
         return null;
     }
 
-    Exception addEntry(Appointment a, Slot s)
+    public Exception addEntry(Appointment a, Slot s)
     {
         try{
             FileReader fr=new FileReader(dir+folderName+fileName+".csv");
@@ -146,16 +146,15 @@ public class ScheduleFile extends ClinicFile {
         return null;
     }
 
-    Exception editEntry(Slot s, Appointment newA)throws IOException
+    public Exception editEntry(Slot slot, Appointment newAppointment)
     {
-        Exception e=null;
-        if((e=deleteEntry(s))==null)
-            if((e=addEntry(newA, s))==null)
-            {
-                newA.setTime(s);
+        Exception e;
+        if((e=deleteEntry(slot))==null)
+            if((e=addEntry(newAppointment, slot))==null) {
+                newAppointment.setTime(slot);
                 return e;
             }
-            else
+        else
                 return e;
         else
             return e;

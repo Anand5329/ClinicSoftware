@@ -8,7 +8,7 @@ public class Prescription
     private LinkedList<String> medicines;
     private LinkedList<String> instruction;
 
-    Prescription(String patientName,String date)
+    public Prescription(String patientName,String date)
     {
         this.date=date;
         this.patientName=patientName;
@@ -16,61 +16,61 @@ public class Prescription
         instruction=new LinkedList<>();
     }
 
-    Prescription()
+    public Prescription()
     {
         this("","");
     }
 
-    String getDate()
+    public String getDate()
     {
         return date;
     }
 
-    String getPatientName() {return patientName;}
+    public String getPatientName() {return patientName;}
 
-    String getFileName(){return patientName+" "+date;}
+    public String getFileName(){return patientName+" "+date;}
 
-    LinkedList<String> getMedicines()
+    public LinkedList<String> getMedicines()
     {
         return medicines;
     }
 
-    LinkedList<String> getInstruction()
+    public LinkedList<String> getInstruction()
     {
         return instruction;
     }
 
-    void setDate(String date)
+    public void setDate(String date)
     {
         this.date=date;
     }
 
-    void setPatientName(String patientName) {this.patientName=patientName;}
+    public void setPatientName(String patientName) {this.patientName=patientName;}
 
-    void addMedicine(String medicine)
+    public void addMedicine(String medicine)
     {
         medicines.add(medicine);
     }
 
-    void addInstruction(String instruction)
+    public void addInstruction(String instruction)
     {
         this.instruction.add(instruction);
     }
 
-    void addMedicineEntry(String medicine,String instruction)
+    public void addMedicineEntry(String medicine,String instruction)
     {
         this.addMedicine(medicine);
         this.addInstruction(instruction);
     }
 
-    void remove(String medicine)
+    public void remove(String medicine)
     {
         int index=medicines.indexOf(medicine);
         medicines.remove(medicine);
         instruction.remove(index);
     }
 
-    void display()
+    public void display()
     {
         int i=1,j=1;
         System.out.println("Patient Name: "+getPatientName());

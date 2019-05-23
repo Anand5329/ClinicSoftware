@@ -7,12 +7,12 @@ public class PrescriptionFile extends ClinicFile
     private String prescriptionFolder="Prescriptions/";
     private String fileName;
 
-    PrescriptionFile(String fileName)
+    public PrescriptionFile(String fileName)
     {
         this.fileName=fileName;
     }
 
-    PrescriptionFile(Prescription prescription)
+    public PrescriptionFile(Prescription prescription)
     {
         fileName=prescription.getFileName();
         if(!isFilePresent(dir,prescriptionFolder,fileName))
@@ -21,17 +21,17 @@ public class PrescriptionFile extends ClinicFile
         }
     }
 
-    String getDirectory()
+    public String getDirectory()
     {
         return dir+prescriptionFolder+fileName;
     }
 
-    String getFileName()
+    public String getFileName()
     {
         return fileName;
     }
 
-    String createFileWithMessage(Prescription prescription)
+    public String createFileWithMessage(Prescription prescription)
     {
         Exception e;
         if((e=createFile(prescription))==null)
@@ -40,7 +40,7 @@ public class PrescriptionFile extends ClinicFile
            return e.getMessage();
     }
 
-    Exception createFile(Prescription prescription)
+    public Exception createFile(Prescription prescription)
     {
         try {
             FileWriter fw = new FileWriter(dir + prescriptionFolder + prescription.getPatientName() + " " + prescription.getDate() + ".csv");
@@ -60,7 +60,7 @@ public class PrescriptionFile extends ClinicFile
         return null;
     }
 
-    Prescription readFile(String patientName,String date)throws IOException
+    public Prescription readFile(String patientName,String date)throws IOException
     {
         FileReader fr=new FileReader(dir+prescriptionFolder+patientName+" "+date+".csv");
         CSVReader reader=new CSVReader(fr);
@@ -77,7 +77,7 @@ public class PrescriptionFile extends ClinicFile
         return pre;
     }
 
-    Prescription readFile(String fileName)throws IOException
+    public Prescription readFile()throws IOException
     {
         if(!fileName.equals(" "))
             return readFile(fileName.split(" ")[0],fileName.split(" ")[1]);
@@ -85,18 +85,13 @@ public class PrescriptionFile extends ClinicFile
             return null;
     }
 
-    boolean deleteFile(String fileName) {
+    public boolean deleteFile() {
         File file = new File(dir + prescriptionFolder + fileName + ".csv");
         return file.delete();
     }
 
-    boolean deleteFile(String patientName,String date)
-    {
-        String fileName=patientName+" "+date;
-        return deleteFile(fileName);
-    }
 
-    Exception deleteEntry(String fileName,int index)throws IOException
+    public Exception deleteEntry(int index)throws IOException
     {
         try {
             FileReader fr = new FileReader(dir + prescriptionFolder + fileName + ".csv");
@@ -118,7 +113,7 @@ public class PrescriptionFile extends ClinicFile
             fw.close();
             File file = new File(dir + prescriptionFolder + fileName + ".csv");
             File newFile = new File(dir + prescriptionFolder + "temp.csv");
-            deleteFile(fileName);
+            deleteFile();
             newFile.renameTo(file);
         }
         catch(Exception e) {
@@ -127,13 +122,13 @@ public class PrescriptionFile extends ClinicFile
         return null;
     }
 
-    Exception deleteEntry(String patientName,String date,int index)throws IOException
+    public Exception deleteEntry(String patientName,String date,int index)throws IOException
     {
         String fileName=patientName+" "+date;
-        return deleteEntry(fileName,index);
+        return deleteEntry(index);
     }
 
-    Exception addEntry(String fileName,String medicine,String instruction,int predecessorIndex)throws IOException
+    public Exception addEntry(String medicine,String instruction,int predecessorIndex)throws IOException
     {
         boolean flag =true;
         try
@@ -182,24 +177,24 @@ public class PrescriptionFile extends ClinicFile
         return null;
     }
 
-    Exception addEntry(String patientName,String date,String medicine,String instruction,int index)throws IOException
+    public Exception addEntry(String patientName,String date,String medicine,String instruction,int index)throws IOException
     {
         String fileName=patientName+" "+date;
-        return addEntry(fileName,medicine,instruction,index);
+        return addEntry(medicine,instruction,index);
     }
 
-    Exception editEntry(String fileName,String medDel,String medEnter,String instructionEnter)throws IOException
+    public Exception editEntry(String fileName,String medDel,String medEnter,String instructionEnter)throws IOException
     {
         Exception exception;
         int index=getIndex(fileName,medDel);
-        if(!((exception=deleteEntry(fileName,index))==null))
+        if(!((exception=deleteEntry(index))==null))
             return exception;
-        if(!((exception=addEntry(fileName,medEnter,instructionEnter,index))==null))
+        if(!((exception=addEntry(medEnter,instructionEnter,index))==null))
             return exception;
         return null;
     }
 
-    int getIndex(String fileName,String medicine)throws IOException
+    public int getIndex(String fileName,String medicine)throws IOException
     {
         int ctr=1;
         FileReader fr=new FileReader(dir+prescriptionFolder+fileName+".csv");
@@ -221,7 +216,7 @@ public class PrescriptionFile extends ClinicFile
         return ctr;
     }
 
-    int getLastIndex(String fileName)throws IOException
+    public int getLastIndex(String fileName)throws IOException
     {
         FileReader fr=new FileReader(dir+prescriptionFolder+fileName+".csv");
         CSVReader reader=new CSVReader(fr);
