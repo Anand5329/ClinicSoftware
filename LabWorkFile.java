@@ -8,29 +8,29 @@ public class LabWorkFile extends ClinicFile
     private String labFolder="Lab Work/";
     private String fileName;
 
-    LabWorkFile(String fileName)
+    public LabWorkFile(String fileName)
     {
         this.fileName=fileName;
     }
 
-    LabWorkFile(LabWork labWork)
+    public LabWorkFile(LabWork labWork)
     {
         fileName=labWork.getFileName();
         if(!isFilePresent(dir,labFolder,fileName))
             System.out.println(createFileWithMessage(labWork));
     }
 
-    String getDirectory()
+    public String getDirectory()
     {
         return dir+labFolder+fileName;
     }
 
-    String getFileName()
+    public String getFileName()
     {
         return fileName;
     }
 
-    String createFileWithMessage(LabWork labWork)
+    public String createFileWithMessage(LabWork labWork)
     {
         Exception e;
         if((e=createLabFile(labWork))==null)
@@ -39,7 +39,7 @@ public class LabWorkFile extends ClinicFile
            return e.getMessage();
     }
 
-    Exception createLabFile(LabWork lab)
+    public Exception createLabFile(LabWork lab)
     {
         try {
             FileWriter fw = new FileWriter(dir + labFolder + lab.getPatientName() + " " + lab.getSentDate() + ".csv");
@@ -57,9 +57,9 @@ public class LabWorkFile extends ClinicFile
         return null;
     }
 
-    LabWork readFile(String patientName,String sentDate)throws IOException
+    public LabWork readFile()throws IOException
     {
-        FileReader fr=new FileReader(dir+labFolder+patientName+" "+sentDate+".csv");
+        FileReader fr=new FileReader(dir+labFolder+fileName+".csv");
         CSVReader reader=new CSVReader(fr);
         String LabWork[];
         reader.readNext();
@@ -67,36 +67,23 @@ public class LabWorkFile extends ClinicFile
         LabWork=reader.readNext();
 
         LabWork lab=new LabWork();
-        lab.setPatientName(patientName);
-        lab.setSentDate(sentDate);
-        lab.setReceivedDate(LabWork[1]);
-        lab.setLabName(LabWork[2]);
-        lab.setWork(LabWork[3]);
+        lab.setPatientName(LabWork[0]);
+        lab.setSentDate(LabWork[1]);
+        lab.setReceivedDate(LabWork[2]);
+        lab.setLabName(LabWork[3]);
+        lab.setWork(LabWork[4]);
         return lab;
     }
 
-    LabWork readFile(String fileName)throws IOException
-    {
-        if(!fileName.equals(" "))
-            return readFile(fileName.split(" ")[0],fileName.split(" ")[1]);
-        else
-            return null;
-    }
 
-
-    boolean deleteFile(String fileName)
+    public boolean deleteFile()
     {
         File file =new File("D:\\Java-Blue J\\src\\ClinicSoftware\\Lab Work\\"+fileName+".csv");
         return file.delete();
     }
 
-    boolean deleteFile(String patientName,String sentDate)
-    {
-        String fileName=patientName+" "+sentDate;
-        return deleteFile(fileName);
-    }
 
-    Exception editFile(int index, String entry)
+    public Exception editFile(int index, String entry)
     {
         try {
             FileReader fr = new FileReader(dir + labFolder + fileName + ".csv");
@@ -123,7 +110,7 @@ public class LabWorkFile extends ClinicFile
         return null;
     }
 
-    int getIndex(String title)throws IOException
+    public int getIndex(String title)throws IOException
     {
         FileReader fr=new FileReader(dir+labFolder+fileName+".csv");
         CSVReader reader=new CSVReader(fr);
