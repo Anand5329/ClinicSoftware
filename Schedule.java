@@ -88,4 +88,15 @@ public class Schedule
         this.time.remove(time);
         patients.remove(index);
     }
+
+    Slot searchSlot(Appointment appointment)
+    {
+        return time.get(patients.indexOf(appointment));
+    }
+
+    Appointment searchAppointment(Slot slot)
+    {
+        return patients.get(time.indexOf(slot));
+    }
+
 }

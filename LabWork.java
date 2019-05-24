@@ -13,60 +13,60 @@ public class LabWork
         this.patientName=patientName;
     }
 
-    LabWork()
+    public LabWork()
     {
         this("","","","","");
     }
 
-    String getSentDate()
+    public String getSentDate()
     {
         return sentDate;
     }
 
-    String getReceivedDate()
+    public String getReceivedDate()
     {
         return receivedDate;
     }
 
-    String getLabName()
+    public String getLabName()
     {
         return labName;
     }
 
-    String getWork()
+    public String getWork()
     {
         return work;
     }
 
-    String getPatientName(){return patientName;}
+    public String getPatientName(){return patientName;}
 
-    String getFileName(){return patientName+" "+sentDate;}
+    public String getFileName(){return patientName+" "+sentDate;}
 
     //setters:
 
-    void setSentDate(String sentDate)
+    public void setSentDate(String sentDate)
     {
         this.sentDate=sentDate;
     }
 
-    void setReceivedDate(String receivedDate)
+    public void setReceivedDate(String receivedDate)
     {
         this.receivedDate=receivedDate;
     }
 
-    void setLabName(String labName)
+    public void setLabName(String labName)
     {
         this.labName=labName;
     }
 
-    void setWork(String work)
+    public void setWork(String work)
     {
         this.work=work;
     }
 
-    void setPatientName(String patientName) {this.patientName=patientName;}
+    public void setPatientName(String patientName) {this.patientName=patientName;}
 
-    void display()
+    public void display()
     {
         System.out.println("Patient Name: " +getPatientName());
         System.out.println("Sent Date: "+getSentDate());
