@@ -62,19 +62,25 @@ public class PrescriptionFile extends ClinicFile
 
     public Prescription readFile(String patientName,String date)throws IOException
     {
-        FileReader fr=new FileReader(dir+prescriptionFolder+patientName+" "+date+".csv");
-        CSVReader reader=new CSVReader(fr);
-        reader.readNext();
-        Prescription pre=new Prescription();
-        pre.setPatientName(patientName);
-        pre.setDate(date);
-        String temp[];
-        while((temp=reader.readNext())!=null)
-        {
-            pre.addMedicine(temp[0]);
-            pre.addInstruction(temp[1]);
+        try {
+            FileReader fr = new FileReader(dir + prescriptionFolder + patientName + " " + date + ".csv");
+            CSVReader reader = new CSVReader(fr);
+            reader.readNext();
+            Prescription pre = new Prescription();
+            pre.setPatientName(patientName);
+            pre.setDate(date);
+            String temp[];
+            while ((temp = reader.readNext()) != null) {
+                pre.addMedicine(temp[0]);
+                pre.addInstruction(temp[1]);
+            }
+            return pre;
         }
-        return pre;
+        catch(java.io.FileNotFoundException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Prescription readFile()throws IOException
@@ -89,7 +95,6 @@ public class PrescriptionFile extends ClinicFile
         File file = new File(dir + prescriptionFolder + fileName + ".csv");
         return file.delete();
     }
-
 
     public Exception deleteEntry(int index)throws IOException
     {

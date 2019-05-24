@@ -42,12 +42,7 @@ public class RecordFile extends ClinicFile{
         return null;
     }
 
-    Record readFile(String name, long phone) throws IOException {
-        String fileName = name + " " + phone;
-        return readFile(fileName);
-    }
-
-    Record readFile(String fileName) throws IOException {
+    Record readFile() throws IOException {
         FileReader fr = new FileReader(dir + folderName + fileName + ".csv");
         CSVReader reader = new CSVReader(fr);
         reader.readNext();
@@ -67,16 +62,10 @@ public class RecordFile extends ClinicFile{
         return r;
     }
 
-    boolean deleteFile(String fileName)
+    boolean deleteFile()
     {
         File file = new File(dir+folderName + fileName + ".csv");
         return file.delete();
-    }
-
-    boolean deleteFile(String patientName,long phone)
-    {
-        String fileName=patientName+" "+phone;
-        return deleteFile(fileName);
     }
 
     Exception editFile(int index,String value)

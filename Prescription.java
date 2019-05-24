@@ -77,7 +77,7 @@ public class Prescription
         System.out.println("Date: "+getDate());
         System.out.println("Medicines\t\tInstruction");
         for(int a=0;a<getMedicines().size();a++)
-        System.out.println(getMedicines().get(a)+"\t\t"+getInstruction().get(a));
+            System.out.println(getMedicines().get(a)+"\t\t"+getInstruction().get(a));
     }
 
 

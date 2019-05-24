@@ -56,7 +56,7 @@ public class ScheduleFile extends ClinicFile {
         for (String s[] : list) {
             String time[] = s[0].split(" - ");
             Slot sl = new Slot(Double.valueOf(time[1]) - Double.valueOf(time[0]), Double.valueOf(time[0]));
-            AppointmentFile af=new AppointmentFile("");
+            AppointmentFile af=new AppointmentFile(s[1]);
             Appointment a = af.readFile();
             sc.addTime(sl);
             sc.add(a);
@@ -148,13 +148,30 @@ public class ScheduleFile extends ClinicFile {
 
     public Exception editEntry(Slot slot, Appointment newAppointment)
     {
-        Exception e;
+        Exception e=null;
         if((e=deleteEntry(slot))==null)
-            if((e=addEntry(newAppointment, slot))==null) {
+            if((e=addEntry(newAppointment, slot))==null)
+            {
                 newAppointment.setTime(slot);
                 return e;
             }
+            else
+                return e;
         else
+            return e;
+    }
+
+    Exception editEntry(Appointment a,Slot nSlot)throws IOException
+    {
+        Exception e=null;
+        Schedule schedule=readFile();
+        if((e=deleteEntry(schedule.searchSlot(a)))==null)
+            if((e=addEntry(a, nSlot))==null)
+            {
+                a.setTime(nSlot);
+                return e;
+            }
+            else
                 return e;
         else
             return e;

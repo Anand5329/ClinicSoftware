@@ -31,7 +31,7 @@ public class SingleScheduleEntry {
         this.appointment = appointment;
     }
 
-    String getTime()
+    public String getTime()
     {
         return time;
     }
