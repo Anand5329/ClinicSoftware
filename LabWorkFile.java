@@ -57,31 +57,55 @@ public class LabWorkFile extends ClinicFile
         return null;
     }
 
-    public LabWork readFile()throws IOException
+    public LabWork readFile()
     {
-        FileReader fr=new FileReader(dir+labFolder+fileName+".csv");
-        CSVReader reader=new CSVReader(fr);
-        String LabWork[];
-        reader.readNext();
+        try {
+            FileReader fr = new FileReader(dir + labFolder + fileName + ".csv");
+            CSVReader reader = new CSVReader(fr);
+            String LabWork[];
+            reader.readNext();
 
-        LabWork=reader.readNext();
+            LabWork = reader.readNext();
 
-        LabWork lab=new LabWork();
-        lab.setPatientName(LabWork[0]);
-        lab.setSentDate(LabWork[1]);
-        lab.setReceivedDate(LabWork[2]);
-        lab.setLabName(LabWork[3]);
-        lab.setWork(LabWork[4]);
-        return lab;
+            LabWork lab = new LabWork();
+            lab.setPatientName(fileName.split(" ")[0]);
+            lab.setSentDate(fileName.split(" ")[1]);
+            lab.setReceivedDate(LabWork[2]);
+            lab.setLabName(LabWork[3]);
+            lab.setWork(LabWork[4]);
+            return lab;
+        }
+        catch(java.io.FileNotFoundException e)
+        {
+            //e.printStackTrace();
+            return null;
+        }
+        catch(IOException e)
+        {
+            //e.printStackTrace();
+            return null;
+        }
     }
 
+//    public LabWork readFile(String fileName)throws IOException
+//    {
+//        if(!fileName.equals(" "))
+//            return readFile(fileName.split(" ")[0],fileName.split(" ")[1]);
+//        else
+//            return null;
+//    }
 
     public boolean deleteFile()
     {
-        File file =new File("D:\\Java-Blue J\\src\\ClinicSoftware\\Lab Work\\"+fileName+".csv");
+        File file =new File(dir+labFolder+fileName+".csv");
         return file.delete();
     }
 
+//    boolean deleteFile(String patientName,String sentDate)
+//    {
+//        String fileName=patientName+" "+sentDate;
+//        return deleteFile(fileName);
+//    }
 
     public Exception editFile(int index, String entry)
     {
@@ -117,8 +141,8 @@ public class LabWorkFile extends ClinicFile
         String temp[]=reader.readNext();
         for(int i=0;i<temp.length;i++)
         {
-           if(temp[i].equals(title))
-               return i;
+            if(temp[i].equals(title))
+                return i;
         }
         return -999;
     }

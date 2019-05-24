@@ -57,11 +57,11 @@ public class AppointmentFile extends ClinicFile{
         RecordFile rf=new RecordFile("");
         Appointment a = new Appointment(rf.readFile(arr[0]), arr[1], s);
         a.setPrice(Double.valueOf(arr[3]));
-        LabWorkFile lf=new LabWorkFile("");
-        a.setLab(lf.readFile(arr[4]));
+        LabWorkFile lf=new LabWorkFile(arr[4]);
+        a.setLab(lf.readFile());
         a.setProcedure(arr[2]);
-        PrescriptionFile pf=new PrescriptionFile("");
-        a.setPrescription(pf.readFile(arr[6]));
+        PrescriptionFile pf=new PrescriptionFile(arr[6]);
+        a.setPrescription(pf.readFile());
         return a;
     }
 
