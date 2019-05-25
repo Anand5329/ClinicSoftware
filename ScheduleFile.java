@@ -48,20 +48,28 @@ public class ScheduleFile extends ClinicFile {
     }
 
     public Schedule readFile() throws IOException {
-        FileReader fr = new FileReader(dir + folderName + fileName + ".csv");
-        CSVReader reader = new CSVReader(fr);
-        reader.readNext();
-        List<String[]> list = reader.readAll();
-        Schedule sc = new Schedule(fileName);
-        for (String s[] : list) {
-            String time[] = s[0].split(" - ");
-            Slot sl = new Slot(Double.valueOf(time[1]) - Double.valueOf(time[0]), Double.valueOf(time[0]));
-            AppointmentFile af=new AppointmentFile(s[1]);
-            Appointment a = af.readFile();
-            sc.addTime(sl);
-            sc.add(a);
+        try {
+            FileReader fr = new FileReader(dir + folderName + fileName + ".csv");
+            CSVReader reader = new CSVReader(fr);
+            reader.readNext();
+            List<String[]> list = reader.readAll();
+            Schedule sc = new Schedule(fileName);
+            for (String s[] : list) {
+                String time[] = s[0].split(" - ");
+                Slot sl = new Slot(Double.valueOf(time[1]) - Double.valueOf(time[0]), Double.valueOf(time[0]));
+                AppointmentFile af = new AppointmentFile(s[1]);
+                Appointment a = af.readFile();
+                sc.addTime(sl);
+                sc.add(a);
+            }
+            return sc;
         }
-        return sc;
+        catch (Exception e)
+        {
+            System.err.println("Exception occurred");
+            //e.printStackTrace();
+            return null;
+        }
     }
 
     public boolean deleteFile() {

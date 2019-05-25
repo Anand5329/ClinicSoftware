@@ -42,37 +42,35 @@ public class AppointmentFile extends ClinicFile{
         return null;
     }
 
-    Appointment readFile(String name, String date) throws IOException {
-        fileName = name + " " + date;
-        return readFile();
-    }
-
     Appointment readFile() throws IOException {
-        FileReader fr = new FileReader(dir + folderName + fileName + ".csv");
-        CSVReader reader = new CSVReader(fr);
-        reader.readNext();
-        String arr[] = reader.readNext();
-        Slot s = new Slot();
-        s=s.toSlot(arr[5]);
-        RecordFile rf=new RecordFile(arr[0]);
-        Appointment a = new Appointment(rf.readFile(), arr[1], s);
-        a.setPrice(Double.valueOf(arr[3]));
-        LabWorkFile lf=new LabWorkFile(arr[4]);
-        a.setLab(lf.readFile());
-        a.setProcedure(arr[2]);
-        PrescriptionFile pf=new PrescriptionFile(arr[6]);
-        a.setPrescription(pf.readFile());
-        return a;
+        try {
+            FileReader fr = new FileReader(dir + folderName + fileName + ".csv");
+            CSVReader reader = new CSVReader(fr);
+            reader.readNext();
+            String arr[] = reader.readNext();
+            Slot s = new Slot();
+            s = s.toSlot(arr[5]);
+            RecordFile rf = new RecordFile(arr[0]);
+            Appointment a = new Appointment(rf.readFile(), arr[1], s);
+            a.setPrice(Double.valueOf(arr[3]));
+            LabWorkFile lf = new LabWorkFile(arr[4]);
+            a.setLab(lf.readFile());
+            a.setProcedure(arr[2]);
+            PrescriptionFile pf = new PrescriptionFile(arr[6]);
+            a.setPrescription(pf.readFile());
+            return a;
+        }
+        catch (Exception e)
+        {
+            System.err.println("Exception occurred");
+            //e.printStackTrace();
+            return null;
+        }
     }
 
     boolean delete() {
         File file = new File(dir + folderName + fileName + ".csv");
         return file.delete();
-    }
-
-    boolean delete(String name, String date) {
-        String fileName = name + " " + date;
-        return delete();
     }
 
     Exception editFile(int index,String value)

@@ -75,37 +75,19 @@ public class LabWorkFile extends ClinicFile
             lab.setWork(LabWork[4]);
             return lab;
         }
-        catch(java.io.FileNotFoundException e)
+        catch (Exception e)
         {
-            //e.printStackTrace();
-            return null;
-        }
-        catch(IOException e)
-        {
+            System.err.println("Exception occurred");
             //e.printStackTrace();
             return null;
         }
     }
-
-//    public LabWork readFile(String fileName)throws IOException
-//    {
-//        if(!fileName.equals(" "))
-//            return readFile(fileName.split(" ")[0],fileName.split(" ")[1]);
-//        else
-//            return null;
-//    }
 
     public boolean deleteFile()
     {
         File file =new File(dir+labFolder+fileName+".csv");
         return file.delete();
     }
-
-//    boolean deleteFile(String patientName,String sentDate)
-//    {
-//        String fileName=patientName+" "+sentDate;
-//        return deleteFile(fileName);
-//    }
 
     public Exception editFile(int index, String entry)
     {

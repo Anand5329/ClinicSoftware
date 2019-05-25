@@ -43,23 +43,31 @@ public class RecordFile extends ClinicFile{
     }
 
     Record readFile() throws IOException {
-        FileReader fr = new FileReader(dir + folderName + fileName + ".csv");
-        CSVReader reader = new CSVReader(fr);
-        reader.readNext();
-        String arr[] = reader.readNext();
-        Record r = new Record(arr[0], arr[1]);
-        r.updateMoney(Double.valueOf(arr[6]));
-        r.setAge(Integer.valueOf(arr[2]));
-        AppointmentFile af1=new AppointmentFile(arr[3]);
-        AppointmentFile af2=new AppointmentFile(arr[4]);
-        r.setFirstAppointment(af1.readFile());
-        r.setLatestAppointment(af2.readFile());
-        r.setDesc(arr[5]);
-        r.setHeartCondition(Boolean.valueOf(arr[7]));
-        r.setAllergy(Boolean.valueOf(arr[8]));
-        r.setDiabetes(Boolean.valueOf(arr[9]));
-        r.setBloodPressure(Boolean.valueOf(arr[10]));
-        return r;
+        try {
+            FileReader fr = new FileReader(dir + folderName + fileName + ".csv");
+            CSVReader reader = new CSVReader(fr);
+            reader.readNext();
+            String arr[] = reader.readNext();
+            Record r = new Record(arr[0], arr[1]);
+            r.updateMoney(Double.valueOf(arr[6]));
+            r.setAge(Integer.valueOf(arr[2]));
+            AppointmentFile af1 = new AppointmentFile(arr[3]);
+            AppointmentFile af2 = new AppointmentFile(arr[4]);
+            r.setFirstAppointment(af1.readFile());
+            r.setLatestAppointment(af2.readFile());
+            r.setDesc(arr[5]);
+            r.setHeartCondition(Boolean.valueOf(arr[7]));
+            r.setAllergy(Boolean.valueOf(arr[8]));
+            r.setDiabetes(Boolean.valueOf(arr[9]));
+            r.setBloodPressure(Boolean.valueOf(arr[10]));
+            return r;
+        }
+        catch (Exception e)
+        {
+            System.err.println("Exception occurred");
+            //e.printStackTrace();
+            return null;
+        }
     }
 
     boolean deleteFile()

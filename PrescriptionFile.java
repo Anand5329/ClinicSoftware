@@ -60,15 +60,15 @@ public class PrescriptionFile extends ClinicFile
         return null;
     }
 
-    public Prescription readFile(String patientName,String date)throws IOException
+    public Prescription readFile()throws IOException
     {
         try {
-            FileReader fr = new FileReader(dir + prescriptionFolder + patientName + " " + date + ".csv");
+            FileReader fr = new FileReader(dir + prescriptionFolder + fileName + ".csv");
             CSVReader reader = new CSVReader(fr);
             reader.readNext();
             Prescription pre = new Prescription();
-            pre.setPatientName(patientName);
-            pre.setDate(date);
+            pre.setPatientName(fileName.split(" ")[0]);
+            pre.setDate(fileName.split(" ")[1]);
             String temp[];
             while ((temp = reader.readNext()) != null) {
                 pre.addMedicine(temp[0]);
@@ -76,19 +76,12 @@ public class PrescriptionFile extends ClinicFile
             }
             return pre;
         }
-        catch(java.io.FileNotFoundException e)
+        catch (Exception e)
         {
-            e.printStackTrace();
+            System.err.println("Exception occurred");
+            //e.printStackTrace();
             return null;
         }
-    }
-
-    public Prescription readFile()throws IOException
-    {
-        if(!fileName.equals(" "))
-            return readFile(fileName.split(" ")[0],fileName.split(" ")[1]);
-        else
-            return null;
     }
 
     public boolean deleteFile() {
@@ -127,11 +120,6 @@ public class PrescriptionFile extends ClinicFile
         return null;
     }
 
-    public Exception deleteEntry(String patientName,String date,int index)throws IOException
-    {
-        String fileName=patientName+" "+date;
-        return deleteEntry(index);
-    }
 
     public Exception addEntry(String medicine,String instruction,int predecessorIndex)throws IOException
     {
@@ -180,12 +168,6 @@ public class PrescriptionFile extends ClinicFile
            return e;
         }
         return null;
-    }
-
-    public Exception addEntry(String patientName,String date,String medicine,String instruction,int index)throws IOException
-    {
-        String fileName=patientName+" "+date;
-        return addEntry(medicine,instruction,index);
     }
 
     public Exception editEntry(String fileName,String medDel,String medEnter,String instructionEnter)throws IOException
