@@ -1,18 +1,19 @@
 package ClinicSoftware;
 
 public class SingleScheduleEntry {
-
     private String time;
     private String patientName;
     private Slot slot;
     private Appointment appointment;
+    private String description;
 
-    public SingleScheduleEntry(Slot slot,Appointment appointment)
+    public SingleScheduleEntry(Slot slot, Appointment appointment)
     {
         this.slot=slot;
         this.appointment=appointment;
         time=slot.displaySlot();
         patientName=appointment.displayAppointment();
+        description=appointment.getProcedure();
     }
 
     public void setTime(String time) {
@@ -46,5 +47,13 @@ public class SingleScheduleEntry {
 
     public Appointment getAppointment() {
         return appointment;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
