@@ -62,10 +62,16 @@ public class RecordFile extends ClinicFile{
             r.setBloodPressure(Boolean.valueOf(arr[10]));
             return r;
         }
-        catch (Exception e)
+        catch (FileNotFoundException e)
         {
-            System.err.println("Exception occurred");
+            System.err.println("Exception occurred: File not found");
             //e.printStackTrace();
+            return null;
+        }
+        catch(Exception e)
+        {
+            System.err.println("An unknown exception occurred:");
+            e.printStackTrace();
             return null;
         }
     }

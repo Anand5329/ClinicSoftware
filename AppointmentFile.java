@@ -3,7 +3,7 @@ package ClinicSoftware;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import java.io.*;
-
+//TODO: Prevent creation of recursive appointments when Record has to be created
 public class AppointmentFile extends ClinicFile{
     private String folderName = "Appointments/";
     private String[] header = {"Record","Date","Procedure","Price","LabWork","Slot","Prescription"};
@@ -60,10 +60,16 @@ public class AppointmentFile extends ClinicFile{
             a.setPrescription(pf.readFile());
             return a;
         }
-        catch (Exception e)
+        catch (FileNotFoundException e)
         {
-            System.err.println("Exception occurred");
+            System.err.println("Exception occurred: File not found");
             //e.printStackTrace();
+            return null;
+        }
+        catch(Exception e)
+        {
+            System.err.println("An unknown exception occurred:");
+            e.printStackTrace();
             return null;
         }
     }
