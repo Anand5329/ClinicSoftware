@@ -14,7 +14,7 @@ public class Record
     private boolean blood_pressure;
     private boolean diabetes;
 
-    Record(String name, String phone, Appointment first_appointment,int age, String description, Appointment latest_appointment, boolean heart_condition, boolean allergy,boolean blood_pressure,boolean diabetes)
+    public Record(String name, String phone, Appointment first_appointment,int age, String description, Appointment latest_appointment, boolean heart_condition, boolean allergy,boolean blood_pressure,boolean diabetes)
     {
         this.name=name;
         this.phone=phone;
@@ -29,104 +29,104 @@ public class Record
         this.diabetes=diabetes;
     }
 
-    Record()
+    public Record()
     {
         this("","",null,-1,"",null,false,false,false,false);
     }
 
-    Record(String n, String p)
+    public Record(String n, String p)
     {
         this(n, p, null, -1, "", null,false, false,false,false);
     }
 
-    String getName()
+    public String getName()
     {
         return name;
     }
 
-    String getPhone()
+    public String getPhone()
     {
         return phone;
     }
 
-    Appointment getFirstAppointment()
+    public Appointment getFirstAppointment()
     {
         return first_appointment;
     }
 
-    int getAge()
+    public int getAge()
     {
         return age;
     }
 
-    String getDesc()
+    public String getDesc()
     {
         return desc;
     }
 
-    Appointment getLatestAppointment()
+    public Appointment getLatestAppointment()
     {
         return latest_appointment;
     }
 
-    double getMoney()
+    public double getMoney()
     {
         return money;
     }
 
-    boolean getHeartCondition(){return heart_condition;}
+    public boolean getHeartCondition(){return heart_condition;}
 
-    boolean getAllergy(){ return allergy; }
+    public boolean getAllergy(){ return allergy; }
 
-    boolean getBloodPressure(){ return blood_pressure; }
+    public boolean getBloodPressure(){ return blood_pressure; }
 
-    boolean getDiabetes(){ return diabetes; }
+    public boolean getDiabetes(){ return diabetes; }
 
-    void setDesc(String d)
+    public void setDesc(String d)
     {
         desc=d;
     }
 
-    void setFirstAppointment(Appointment first_appointment)
+    public void setFirstAppointment(Appointment first_appointment)
     {
         this.first_appointment=first_appointment;
     }
 
-    void setLatestAppointment(Appointment latest_appointment)
+    public void setLatestAppointment(Appointment latest_appointment)
     {
         this.latest_appointment=latest_appointment;
     }
 
-    void setAge(int a)
+    public void setAge(int a)
     {
         age=a;
     }
 
-    void setHeartCondition(boolean hc){ heart_condition=hc; }
+    public void setHeartCondition(boolean hc){ heart_condition=hc; }
 
-    void setAllergy(boolean all){ allergy=all; }
+    public void setAllergy(boolean all){ allergy=all; }
 
-    void setBloodPressure(boolean bp){ blood_pressure=bp; }
+    public void setBloodPressure(boolean bp){ blood_pressure=bp; }
 
-    void setDiabetes(boolean dp){ diabetes=dp; }
+    public void setDiabetes(boolean dp){ diabetes=dp; }
 
-    void updateMoney(double mon)
+    public void updateMoney(double mon)
     {
         money+=mon;
     }
 
-    void update(Appointment a)
+    public void update(Appointment a)
     {
         setLatestAppointment(a);
         updateMoney(a.getPrice());
     }
 
-    String getFileName()
+    public String getFileName()
     {
         return name+" "+phone;
     }
 
-    void display()
+    public void display()
     {
         System.out.println("Name: "+name);
         System.out.println("Phone No.: "+phone);

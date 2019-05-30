@@ -9,7 +9,7 @@ public class RecordFile extends ClinicFile{
     private String[] header = {"Name","Phone No.","Age","First Date","Latest Date","Description","Money","Heart Condition","Allergy","Diabetes","Blood Pressure"};
     private String fileName = "";
 
-    RecordFile(Record r)
+    public RecordFile(Record r)
     {
         Exception e=null;
         fileName=r.getFileName();
@@ -20,7 +20,7 @@ public class RecordFile extends ClinicFile{
                 e.printStackTrace();
     }
 
-    RecordFile(String fileName)
+    public RecordFile(String fileName)
     {
         this.fileName=fileName;
     }
@@ -42,7 +42,7 @@ public class RecordFile extends ClinicFile{
         return null;
     }
 
-    Record readFile() throws IOException {
+    public Record readFile() throws IOException {
         try {
             FileReader fr = new FileReader(dir + folderName + fileName + ".csv");
             CSVReader reader = new CSVReader(fr);
@@ -76,7 +76,7 @@ public class RecordFile extends ClinicFile{
         }
     }
 
-    boolean deleteFile()
+    public boolean deleteFile()
     {
         File file = new File(dir+folderName + fileName + ".csv");
         return file.delete();
@@ -110,17 +110,17 @@ public class RecordFile extends ClinicFile{
         return null;
     }
 
-    Exception editFile(int index, boolean condition)
+    public Exception editFile(int index, boolean condition)
     {
         return editFile(index,condition+"");
     }
 
-    Exception editFile(int index, double money)
+    public Exception editFile(int index, double money)
     {
         return editFile(index,money+"");
     }
 
-    Exception editFile(int index, int  age)
+    public Exception editFile(int index, int  age)
     {
         return editFile(index,age+"");
     }
