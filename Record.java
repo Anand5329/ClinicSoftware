@@ -1,27 +1,34 @@
 package ClinicSoftware;
 
+import java.io.FileNotFoundException;
+
 public class Record
 {
+    //TODO: add pending amount, work functionality
     private String name;
     private String phone;
-    private Appointment first_appointment;
+    private String firstAppointmentFile;
     private int age;
     private String desc;
-    private Appointment latest_appointment;
+    private String latestAppointmentFile;
     private double money;
     private boolean heart_condition;
     private boolean allergy;
     private boolean blood_pressure;
     private boolean diabetes;
 
-    public Record(String name, String phone, Appointment first_appointment,int age, String description, Appointment latest_appointment, boolean heart_condition, boolean allergy,boolean blood_pressure,boolean diabetes)
+    private Appointment firstAppointment;
+    private Appointment latestAppointment;
+    private boolean appointmentsBuiltFlag=false;
+
+    public Record(String name, String phone, String firstAppointmentFile,int age, String description, String latestAppointmentFile, boolean heart_condition, boolean allergy,boolean blood_pressure,boolean diabetes)
     {
         this.name=name;
         this.phone=phone;
-        this.first_appointment=first_appointment;
+        this.firstAppointmentFile=firstAppointmentFile;
         this.age=age;
         this.desc=description;
-        this.latest_appointment=latest_appointment;
+        this.latestAppointmentFile=latestAppointmentFile;
         money=0;
         this.heart_condition=heart_condition;
         this.allergy=allergy;
@@ -31,7 +38,7 @@ public class Record
 
     public Record()
     {
-        this("","",null,-1,"",null,false,false,false,false);
+        this("","","",-1,"","",false,false,false,false);
     }
 
     public Record(String n, String p)
@@ -49,9 +56,9 @@ public class Record
         return phone;
     }
 
-    public Appointment getFirstAppointment()
+    public String getFirstAppointmentFile()
     {
-        return first_appointment;
+        return firstAppointmentFile;
     }
 
     public int getAge()
@@ -64,9 +71,9 @@ public class Record
         return desc;
     }
 
-    public Appointment getLatestAppointment()
+    public String getLatestAppointmentFile()
     {
-        return latest_appointment;
+        return latestAppointmentFile;
     }
 
     public double getMoney()
@@ -87,14 +94,14 @@ public class Record
         desc=d;
     }
 
-    public void setFirstAppointment(Appointment first_appointment)
+    public void setFirstAppointmentFile(String firstAppointmentFile)
     {
-        this.first_appointment=first_appointment;
+        this.firstAppointmentFile=firstAppointmentFile;
     }
 
-    public void setLatestAppointment(Appointment latest_appointment)
+    public void setLatestAppointmentFile(String latestAppointmentFile)
     {
-        this.latest_appointment=latest_appointment;
+        this.latestAppointmentFile=latestAppointmentFile;
     }
 
     public void setAge(int a)
@@ -115,10 +122,48 @@ public class Record
         money+=mon;
     }
 
-    public void update(Appointment a)
+    public void buildAppointments()
     {
-        setLatestAppointment(a);
-        updateMoney(a.getPrice());
+        try {
+            AppointmentFile firstAppointment = new AppointmentFile(firstAppointmentFile);
+            AppointmentFile latestAppointment = new AppointmentFile(latestAppointmentFile);
+            this.firstAppointment = firstAppointment.readFile();
+            this.latestAppointment = latestAppointment.readFile();
+            appointmentsBuiltFlag=true;
+        }
+        catch(FileNotFoundException e)
+        {
+            System.err.println("Error occurred: File not found");
+            appointmentsBuiltFlag=false;
+        }
+        catch(Exception e)
+        {
+            System.err.println(e);
+            appointmentsBuiltFlag=false;
+        }
+
+    }
+
+    public Appointment getFirstAppointment()
+    {
+        if(appointmentsBuiltFlag)
+            return firstAppointment;
+        else
+        {
+            System.out.println("Please build the appointments first.");
+            return null;
+        }
+    }
+
+    public Appointment getLatestAppointment()
+    {
+        if(appointmentsBuiltFlag)
+            return latestAppointment;
+        else
+        {
+            System.out.println("Please build the appointments first.");
+            return null;
+        }
     }
 
     public String getFileName()
@@ -131,8 +176,15 @@ public class Record
         System.out.println("Name: "+name);
         System.out.println("Phone No.: "+phone);
         System.out.println("Age: "+age);
-        System.out.println("First Date: "+first_appointment.getDate());
-        System.out.println("Latest Date:"+latest_appointment.getDate());
+        if(appointmentsBuiltFlag) {
+            System.out.println("First Date: " + firstAppointment.getDate());
+            System.out.println("Latest Date:" + latestAppointment.getDate());
+        }
+        else
+        {
+            System.out.println("First Appointment File:"+firstAppointmentFile);
+            System.out.println("Latest Appointment File:"+latestAppointmentFile);
+        }
         System.out.println("Description: "+desc);
         System.out.println("Total Money Paid: "+money);
         System.out.println("Heart Condition: "+heart_condition);

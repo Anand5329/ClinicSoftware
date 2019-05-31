@@ -51,10 +51,8 @@ public class RecordFile extends ClinicFile{
             Record r = new Record(arr[0], arr[1]);
             r.updateMoney(Double.valueOf(arr[6]));
             r.setAge(Integer.valueOf(arr[2]));
-            AppointmentFile af1 = new AppointmentFile(arr[3]);
-            AppointmentFile af2 = new AppointmentFile(arr[4]);
-            r.setFirstAppointment(af1.readFile());
-            r.setLatestAppointment(af2.readFile());
+            r.setFirstAppointmentFile(arr[3]);
+            r.setLatestAppointmentFile(arr[4]);
             r.setDesc(arr[5]);
             r.setHeartCondition(Boolean.valueOf(arr[7]));
             r.setAllergy(Boolean.valueOf(arr[8]));
