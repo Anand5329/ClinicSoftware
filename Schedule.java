@@ -68,6 +68,11 @@ public class Schedule
         }
     }
 
+    public void add(SingleScheduleEntry scheduleEntry)
+    {
+        add(scheduleEntry.getAppointment());
+    }
+
     public void addBreak()
     {
         Record b=new Record("Break","");

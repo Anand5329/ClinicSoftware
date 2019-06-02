@@ -11,6 +11,7 @@ public class SingleScheduleEntry {
     {
         this.slot=slot;
         this.appointment=appointment;
+        appointment.setTime(slot);
         time=slot.displaySlot();
         patientName=appointment.displayAppointment();
         description=appointment.getProcedure();

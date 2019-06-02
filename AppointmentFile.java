@@ -3,7 +3,6 @@ package ClinicSoftware;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import java.io.*;
-//TODO: Prevent creation of recursive appointments when Record has to be created
 public class AppointmentFile extends ClinicFile{
     private String folderName = "Appointments/";
     private String[] header = {"Record","Date","Procedure","Price","LabWork","Slot","Prescription"};
