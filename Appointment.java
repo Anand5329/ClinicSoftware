@@ -10,7 +10,7 @@ public class Appointment {
     LabWork lab;
     Prescription prescription;
 
-    Appointment(Record patient, String date, String procedure, double price, Slot time) {
+    public Appointment(Record patient, String date, String procedure, double price, Slot time) {
         this.patient = patient;
         this.date = date;
         this.procedure = procedure;
@@ -24,76 +24,76 @@ public class Appointment {
         prescription = new Prescription();
     }
 
-    Appointment() {
+    public Appointment() {
         this(null, "", "", 0,null);
     }
 
-    Appointment(Record patient, String date,Slot t1) {
+    public Appointment(Record patient, String date,Slot t1) {
         this(patient, date, "", 0,t1);
     }
 
-    Record getRecord() {
+    public Record getRecord() {
         return patient;
     }
 
-    String getDate() {
+    public String getDate() {
         return date;
     }
 
-    String getProcedure()
+    public String getProcedure()
     {
         return procedure;
     }
 
-    double getPrice()
+    public double getPrice()
     {
         return price;
     }
 
-    double getPaid()
+    public double getPaid()
     {
         return paid;
     }
 
-    double getPending()
+    public double getPending()
     {
         return (price-paid);
     }
 
-    Slot getTime()
+    public Slot getTime()
     {
         return time;
     }
 
-    String getFileName(){return patient.getName()+" "+getDate();}
+    public String getFileName(){return patient.getName()+" "+getDate();}
 
-    void setProcedure(String procedure)
+    public void setProcedure(String procedure)
     {
         this.procedure=procedure;
     }
 
-    void setPrice(double price)
+    public void setPrice(double price)
     {
         this.price=price;
     }
 
-    void setPaid(double paid)
+    public void setPaid(double paid)
     {
         this.paid=paid;
     }
 
-    void setTime(Slot time)
+    public void setTime(Slot time)
     {
         this.time=time;
     }
 
-    String displayAppointment()
+    public String displayAppointment()
     {
         String s=patient.getName()+"\t\t\t"+procedure;
         return s;
     }
 
-    void setLab(String sentDate,String receivedDate,String labName,String work)
+    public void setLab(String sentDate,String receivedDate,String labName,String work)
     {
         lab.setSentDate(sentDate);
         lab.setReceivedDate(receivedDate);
@@ -101,33 +101,33 @@ public class Appointment {
         lab.setWork(work);
         lab.setPatientName(patient.getName());
     }
-    void setLab(LabWork lab)
+    public void setLab(LabWork lab)
     {
         this.lab=lab;
     }
 
-    void setPrescription(String date)
+    public void setPrescription(String date)
     {
         prescription.setDate(date);
         prescription.setPatientName(patient.getName());
     }
 
-    void setPrescription(Prescription p)
+    public void setPrescription(Prescription p)
     {
         this.prescription=p;
     }
 
-    LabWork getLab()
+    public LabWork getLab()
     {
         return lab;
     }
 
-    Prescription getPrescription()
+    public Prescription getPrescription()
     {
         return prescription;
     }
 
-    void display()
+    public void display()
     {
         patient.display();
         System.out.println("\n"+date+"\n"+time.displaySlot());
