@@ -1,15 +1,16 @@
 package ClinicSoftware;
 
 public class SingleScheduleEntry {
+
     private String time;
     private String patientName;
     private Slot slot;
     private Appointment appointment;
     private String description;
 
-    public SingleScheduleEntry(Slot slot, Appointment appointment)
+    public SingleScheduleEntry(Appointment appointment)
     {
-        this.slot=slot;
+        this.slot=appointment.getTime();
         this.appointment=appointment;
         appointment.setTime(slot);
         time=slot.displaySlot();
