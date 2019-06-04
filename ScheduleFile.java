@@ -7,7 +7,6 @@ import java.io.*;
 import java.util.List;
 
 public class ScheduleFile extends ClinicFile {
-    private String dir = "C:/Anand/Code Projects!/Directories/";
     private String folderName = "Schedules/";
     private String[] header = {"Slot", "Appointment"};
     private String fileName = "";
@@ -111,8 +110,9 @@ public class ScheduleFile extends ClinicFile {
         return null;
     }
 
-    public Exception addEntry(Appointment a, Slot s)
+    public Exception addEntry(Appointment a)
     {
+        Slot s=a.getTime();
         try{
             FileReader fr=new FileReader(dir+folderName+fileName+".csv");
             CSVReader reader=new CSVReader(fr);
@@ -160,11 +160,12 @@ public class ScheduleFile extends ClinicFile {
         return null;
     }
 
-    public Exception editEntry(Slot slot, Appointment newAppointment)
+    public Exception editEntry(Appointment newAppointment)
     {
+        Slot slot=newAppointment.getTime();
         Exception e=null;
         if((e=deleteEntry(slot))==null)
-            if((e=addEntry(newAppointment, slot))==null)
+            if((e=addEntry(newAppointment))==null)
             {
                 newAppointment.setTime(slot);
                 return e;
@@ -180,7 +181,7 @@ public class ScheduleFile extends ClinicFile {
         Exception e=null;
         Schedule schedule=readFile();
         if((e=deleteEntry(schedule.searchSlot(a)))==null)
-            if((e=addEntry(a, nSlot))==null)
+            if((e=addEntry(a))==null)
             {
                 a.setTime(nSlot);
                 return e;
