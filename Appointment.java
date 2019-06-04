@@ -9,12 +9,13 @@ public class Appointment {
     Slot time;
     LabWork lab;
     Prescription prescription;
-
+//TODO: make add appointment window
     public Appointment(Record patient, String date, String procedure, double price, Slot time) {
         this.patient = patient;
         this.date = date;
         this.procedure = procedure;
         this.price = price;
+        patient.updateMoney(price);
         paid=0;
         if(time!=null)
             this.time=time;
@@ -75,11 +76,13 @@ public class Appointment {
     public void setPrice(double price)
     {
         this.price=price;
+        patient.updateMoney(price);
     }
 
     public void setPaid(double paid)
     {
         this.paid=paid;
+        patient.pay(paid);
     }
 
     public void setTime(Slot time)

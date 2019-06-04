@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 
 public class Record
 {
-    //TODO: add pending amount, work functionality
+    //TODO: make add record window
     private String name;
     private String phone;
     private String firstAppointmentFile;
@@ -12,6 +12,8 @@ public class Record
     private String desc;
     private String latestAppointmentFile;
     private double money;
+    private double paid;
+
     private boolean heart_condition;
     private boolean allergy;
     private boolean blood_pressure;
@@ -30,6 +32,7 @@ public class Record
         this.desc=description;
         this.latestAppointmentFile=latestAppointmentFile;
         money=0;
+        paid=0;
         this.heart_condition=heart_condition;
         this.allergy=allergy;
         this.blood_pressure=blood_pressure;
@@ -120,6 +123,21 @@ public class Record
     public void updateMoney(double mon)
     {
         money+=mon;
+    }
+
+
+    public void setPaid(double paid) {
+        this.paid = paid;
+    }
+
+    public double getPaid() {
+        return paid;
+    }
+
+    public void pay(double amount)
+    {
+        setPaid(amount);
+        money=money-paid;
     }
 
     public void buildAppointments()

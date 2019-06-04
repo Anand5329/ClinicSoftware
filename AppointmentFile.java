@@ -5,7 +5,7 @@ import com.opencsv.CSVWriter;
 import java.io.*;
 public class AppointmentFile extends ClinicFile{
     private String folderName = "Appointments/";
-    private String[] header = {"Record","Date","Procedure","Price","LabWork","Slot","Prescription"};
+    private String[] header = {"Record","Date","Procedure","Price","LabWork","Slot","Prescription","Amount paid"};
     private String fileName = "";
 
     AppointmentFile(Appointment a)throws IOException
@@ -29,7 +29,7 @@ public class AppointmentFile extends ClinicFile{
             FileWriter fw = new FileWriter(dir + folderName + a.getRecord().getName() + " " + a.getDate() + ".csv");
             CSVWriter writer = new CSVWriter(fw);
             writer.writeNext(header);
-            String[] dat = {a.getRecord().getFileName(), a.getDate(), a.getProcedure(), "" + a.getPrice(), a.getLab().getFileName(),a.getTime().displaySlot(), a.getPrescription().getFileName()};
+            String[] dat = {a.getRecord().getFileName(), a.getDate(), a.getProcedure(), "" + a.getPrice(), a.getLab().getFileName(),a.getTime().displaySlot(), a.getPrescription().getFileName(),a.getPaid()+""};
             writer.writeNext(dat);
             writer.close();
             fw.close();
@@ -56,6 +56,7 @@ public class AppointmentFile extends ClinicFile{
             a.setLab(lf.readFile());
             a.setProcedure(arr[2]);
             PrescriptionFile pf = new PrescriptionFile(arr[6]);
+            a.setPaid(Double.valueOf(arr[7]));
             a.setPrescription(pf.readFile());
             return a;
         }

@@ -6,7 +6,7 @@ import java.io.*;
 
 public class RecordFile extends ClinicFile{
     private String folderName = "Records/";
-    private String[] header = {"Name","Phone No.","Age","First Date","Latest Date","Description","Money","Heart Condition","Allergy","Diabetes","Blood Pressure"};
+    private String[] header = {"Name","Phone No.","Age","First Date","Latest Date","Description","Money","Heart Condition","Allergy","Diabetes","Blood Pressure","Pending Amount"};
     private String fileName = "";
 
     public RecordFile(Record r)
@@ -30,7 +30,7 @@ public class RecordFile extends ClinicFile{
             FileWriter fw = new FileWriter(dir + folderName + patient.getFileName() + ".csv");
             CSVWriter writer = new CSVWriter(fw);
             writer.writeNext(header);
-            String recordDetails[] = {patient.getName(), "" + patient.getPhone(), "" + patient.getAge(), patient.getFirstAppointment().getFileName(), patient.getLatestAppointment().getFileName(), patient.getDesc(), patient.getMoney() + "", patient.getHeartCondition() + "", patient.getAllergy() + "", patient.getDiabetes() + "", patient.getBloodPressure() + ""};
+            String recordDetails[] = {patient.getName(), "" + patient.getPhone(), "" + patient.getAge(), patient.getFirstAppointment().getFileName(), patient.getLatestAppointment().getFileName(), patient.getDesc(), patient.getMoney() + "", patient.getHeartCondition() + "", patient.getAllergy() + "", patient.getDiabetes() + "", patient.getBloodPressure() + "",patient.getPaid()+""};
             writer.writeNext(recordDetails);
             writer.close();
             fw.close();
@@ -58,6 +58,7 @@ public class RecordFile extends ClinicFile{
             r.setAllergy(Boolean.valueOf(arr[8]));
             r.setDiabetes(Boolean.valueOf(arr[9]));
             r.setBloodPressure(Boolean.valueOf(arr[10]));
+            r.setPaid(Double.valueOf(arr[11]));
             return r;
         }
         catch (FileNotFoundException e)
