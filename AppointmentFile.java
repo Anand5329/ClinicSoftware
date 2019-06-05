@@ -8,7 +8,7 @@ public class AppointmentFile extends ClinicFile{
     private String[] header = {"Record","Date","Procedure","Price","LabWork","Slot","Prescription","Amount paid"};
     private String fileName = "";
 
-    AppointmentFile(Appointment a)throws IOException
+    public AppointmentFile(Appointment a)throws IOException
     {
         Exception e=null;
         fileName=a.getFileName();
@@ -19,12 +19,12 @@ public class AppointmentFile extends ClinicFile{
                 e.printStackTrace();
     }
 
-    AppointmentFile(String fileName)
+    public AppointmentFile(String fileName)
     {
         this.fileName=fileName;
     }
 
-    Exception createFile(Appointment a) {
+    public Exception createFile(Appointment a) {
         try {
             FileWriter fw = new FileWriter(dir + folderName + a.getRecord().getName() + " " + a.getDate() + ".csv");
             CSVWriter writer = new CSVWriter(fw);
@@ -41,7 +41,7 @@ public class AppointmentFile extends ClinicFile{
         return null;
     }
 
-    Appointment readFile() throws IOException {
+    public Appointment readFile() throws IOException {
         try {
             FileReader fr = new FileReader(dir + folderName + fileName + ".csv");
             CSVReader reader = new CSVReader(fr);
@@ -74,12 +74,12 @@ public class AppointmentFile extends ClinicFile{
         }
     }
 
-    boolean delete() {
+    public boolean delete() {
         File file = new File(dir + folderName + fileName + ".csv");
         return file.delete();
     }
 
-    Exception editFile(int index,String value)
+    public Exception editFile(int index,String value)
     {
         try {
             FileReader fr = new FileReader(dir + folderName + fileName);
@@ -107,17 +107,17 @@ public class AppointmentFile extends ClinicFile{
         return null;
     }
 
-    Exception editFile(int index, Record r)
+    public Exception editFile(int index, Record r)
     {
         return editFile(index,r.getFileName());
     }
 
-    Exception editFile(int index, Slot time)
+    public Exception editFile(int index, Slot time)
     {
         return editFile(index,time.displaySlot());
     }
 
-    Exception editFile(int index, int  age)
+    public Exception editFile(int index, int  age)
     {
         return editFile(index,age+"");
     }
