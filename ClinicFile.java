@@ -11,11 +11,14 @@ public class ClinicFile {
         {
             FileReader fr=new FileReader(dir+folderName+fileName);
         }
+        catch(FileNotFoundException e)
+        {
+                return false;
+        }
         catch(Exception e)
         {
-            Exception f=new FileNotFoundException();
-            if(e.equals(f))
-                return false;
+            e.printStackTrace();
+            return false;
         }
         return true;
     }
