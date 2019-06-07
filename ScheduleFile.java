@@ -4,9 +4,11 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 import java.io.*;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ScheduleFile extends ClinicFile {
+    private String dir = "C:/Anand/Code Projects!/Directories/";
     private String folderName = "Schedules/";
     private String[] header = {"Slot", "Appointment"};
     private String fileName = "";
@@ -33,7 +35,7 @@ public class ScheduleFile extends ClinicFile {
             CSVWriter writer = new CSVWriter(fw);
             writer.writeNext(header);
             for (int i = 0; i < s.getSlots().size(); i++) {
-                String entry[] = {s.getSlots().get(i).displaySlot(), s.getAppointments().get(i).getRecord().getName() + " " + s.getAppointments().get(i).getDate() + ".csv"};
+                String entry[] = {s.getSlots().get(i).displaySlot(), s.getAppointments().get(i).getRecord().getName() + " " + s.getAppointments().get(i).getDate()};
                 writer.writeNext(entry);
             }
             writer.close();
@@ -58,7 +60,7 @@ public class ScheduleFile extends ClinicFile {
                 Slot sl = new Slot(Double.valueOf(time[1]) - Double.valueOf(time[0]), Double.valueOf(time[0]));
                 AppointmentFile af = new AppointmentFile(s[1]);
                 Appointment a = af.readFile();
-                sc.addTime(sl);
+                a.setTime(sl);
                 sc.add(a);
             }
             return sc;
@@ -116,31 +118,28 @@ public class ScheduleFile extends ClinicFile {
         try{
             FileReader fr=new FileReader(dir+folderName+fileName+".csv");
             CSVReader reader=new CSVReader(fr);
-            String[] temp;
-            reader.readNext();
             FileWriter fw=new FileWriter(dir+folderName+"temp2.csv");
             CSVWriter writer=new CSVWriter(fw);
             writer.writeNext(header);
-            while((temp=reader.readNext())!=null)
+            LinkedList<String[]> data=new LinkedList(reader.readAll());
+            boolean isWritten=false;
+            String arr[]={s.displaySlot(),a.getFileName()};
+            for(int i=1;i<data.size();i++)
             {
                 Slot e=new Slot();
-                Slot n=e.toSlot(temp[0]);
-                String next[]=reader.readNext();
-                boolean isWritten=false;
-                if(next!=null) {
-                    Slot m = e.toSlot(next[0]);
-                    writer.writeNext(temp);
-                    if (s.isGreater(n) && m.isGreater(s)){
-                        String slot[] = {s.displaySlot(), a.getFileName()};
-                        writer.writeNext(slot);
-                        isWritten=true;
-                    }
-                    writer.writeNext(next);
-                    if(!isWritten) {
-                        String slot[] = {s.displaySlot(), a.getFileName()};
-                        writer.writeNext(slot);
-                    }
+                Slot slot=e.toSlot(data.get(i)[0]);
+                if(slot.isGreater(s))
+                {
+                    writer.writeNext(arr);
+                    isWritten=true;
+                    break;
                 }
+                writer.writeNext(data.get(i));
+            }
+            if(!isWritten)
+            {
+                writer.writeNext(arr);
+                isWritten=true;
             }
             reader.close();
             writer.close();

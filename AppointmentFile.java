@@ -7,7 +7,7 @@ public class AppointmentFile extends ClinicFile{
     private String folderName = "Appointments/";
     private String[] header = {"Record","Date","Procedure","Price","LabWork","Slot","Prescription","Amount paid"};
     private String fileName = "";
-
+//TODO: check isFilePresent() not working
     public AppointmentFile(Appointment a)throws IOException
     {
         Exception e=null;
@@ -17,6 +17,8 @@ public class AppointmentFile extends ClinicFile{
                 System.out.println("File created successfully");
             else
                 e.printStackTrace();
+        else
+            System.out.println("Exists");
     }
 
     public AppointmentFile(String fileName)

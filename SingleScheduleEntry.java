@@ -1,7 +1,6 @@
 package ClinicSoftware;
 
 public class SingleScheduleEntry {
-
     private String time;
     private String patientName;
     private Slot slot;
