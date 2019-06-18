@@ -210,4 +210,10 @@ public class Record
         System.out.println("Diabetes: "+diabetes);
         System.out.println("High Blood Pressure: "+blood_pressure);
     }
+
+    public static Record defaultRecord()
+    {
+        Record record=new Record();
+        return record;
+    }
 }

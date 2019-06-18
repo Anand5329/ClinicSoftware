@@ -175,7 +175,7 @@ public class ScheduleFile extends ClinicFile {
             return e;
     }
 
-    Exception editEntry(Appointment a,Slot nSlot)throws IOException
+    public Exception editEntry(Appointment a,Slot nSlot)throws IOException
     {
         Exception e=null;
         Schedule schedule=readFile();

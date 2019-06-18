@@ -26,7 +26,7 @@ public class Appointment {
     }
 
     public Appointment() {
-        this(null, "", "", 0,null);
+        this(Record.defaultRecord(), "", "", 0,null);
     }
 
     public Appointment(Record patient, String date,Slot t1) {
