@@ -6,7 +6,7 @@ import com.opencsv.CSVWriter;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
-
+//TODO editEntry not working properly
 public class ScheduleFile extends ClinicFile {
     private String dir = "C:/Anand/Code Projects!/Directories/";
     private String folderName = "Schedules/";
@@ -96,10 +96,17 @@ public class ScheduleFile extends ClinicFile {
                 if (!(Double.valueOf(t[0].split("-")[0])==slot.getStartTime()))
                     writer.writeNext(t);
             }
-            reader.close();
             writer.close();
-            fr.close();
             fw.close();
+            reader.close();
+            fr.close();
+            try {
+                System.gc();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
             File file = new File(dir + folderName + fileName + ".csv");
             File nFile = new File(dir + folderName + "temp.csv");
             if (!deleteFile())
@@ -178,11 +185,11 @@ public class ScheduleFile extends ClinicFile {
     public Exception editEntry(Appointment a,Slot nSlot)throws IOException
     {
         Exception e=null;
+        a.setTime(nSlot);
         Schedule schedule=readFile();
         if((e=deleteEntry(schedule.searchSlot(a)))==null)
             if((e=addEntry(a))==null)
             {
-                a.setTime(nSlot);
                 return e;
             }
             else

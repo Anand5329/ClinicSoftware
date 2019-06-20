@@ -94,14 +94,25 @@ public class Schedule
         patients.remove(index);
     }
 
-    Slot searchSlot(Appointment appointment)
-    {
-        return time.get(patients.indexOf(appointment));
+    Slot searchSlot(Appointment appointment) {
+        for (Appointment a : patients)
+        {
+            if(a.getFileName().equals(appointment.getFileName()))
+                return time.get(patients.indexOf(a));
+        }
+
+        return null;
     }
 
     Appointment searchAppointment(Slot slot)
     {
-        return patients.get(time.indexOf(slot));
+
+        for(Slot s: time)
+        {
+            if(s.displaySlot().equals(slot.displaySlot()))
+                return patients.get(time.indexOf(slot));
+        }
+        return null;
     }
 
 }
