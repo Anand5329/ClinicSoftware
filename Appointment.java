@@ -68,6 +68,11 @@ public class Appointment {
 
     public String getFileName(){return patient.getName()+" "+getDate();}
 
+    public void setPatient(Record patient)
+    {
+        this.patient=patient;
+    }
+
     public void setProcedure(String procedure)
     {
         this.procedure=procedure;
@@ -128,6 +133,29 @@ public class Appointment {
     public Prescription getPrescription()
     {
         return prescription;
+    }
+
+    public String getLabFileName()
+    {
+        if(lab!=null)
+            return lab.getFileName();
+        else
+        {
+            System.out.println("Assign lab first.");
+            return "";
+        }
+    }
+
+    public String getPrescriptionFileName()
+    {
+        if(prescription!=null)
+            return prescription.getFileName();
+        else
+        {
+            System.out.println("Assign Prescription first.");
+            return "";
+        }
+
     }
 
     public void display()

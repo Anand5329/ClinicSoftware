@@ -30,7 +30,7 @@ public class AppointmentFile extends ClinicFile{
             FileWriter fw = new FileWriter(dir + folderName + a.getRecord().getName() + " " + a.getDate() + ".csv");
             CSVWriter writer = new CSVWriter(fw);
             writer.writeNext(header);
-            String[] dat = {a.getRecord().getFileName(), a.getDate(), a.getProcedure(), "" + a.getPrice(), a.getLab().getFileName(),a.getTime().displaySlot(), a.getPrescription().getFileName(),a.getPaid()+""};
+            String[] dat = {a.getRecord().getFileName(), a.getDate(), a.getProcedure(), "" + a.getPrice(), a.getLabFileName(),a.getTime().displaySlot(), a.getPrescriptionFileName(),a.getPaid()+""};
             writer.writeNext(dat);
             writer.close();
             fw.close();
