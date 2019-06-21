@@ -13,7 +13,7 @@ public class SingleScheduleEntry {
         this.appointment=appointment;
         appointment.setTime(slot);
         time=slot.displaySlot();
-        patientName=appointment.displayAppointment();
+        patientName=appointment.getRecord().getName();
         description=appointment.getProcedure();
     }
 
