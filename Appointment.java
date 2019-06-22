@@ -66,7 +66,7 @@ public class Appointment {
         return time;
     }
 
-    public String getFileName(){return patient.getName()+" "+getDate();}
+    public String getFileName(){return patient.getName()+" "+patient.getPhone()+" "+getDate();}
 
     public void setPatient(Record patient)
     {

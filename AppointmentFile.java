@@ -27,7 +27,7 @@ public class AppointmentFile extends ClinicFile{
 
     public Exception createFile(Appointment a) {
         try {
-            FileWriter fw = new FileWriter(dir + folderName + a.getRecord().getName() + " " + a.getDate() + ".csv");
+            FileWriter fw = new FileWriter(dir + folderName + a.getFileName() + ".csv");
             CSVWriter writer = new CSVWriter(fw);
             writer.writeNext(header);
             String[] dat = {a.getRecord().getFileName(), a.getDate(), a.getProcedure(), "" + a.getPrice(), a.getLabFileName(),a.getTime().displaySlot(), a.getPrescriptionFileName(),a.getPaid()+""};
@@ -83,7 +83,7 @@ public class AppointmentFile extends ClinicFile{
     public Exception editFile(int index,String value)
     {
         try {
-            FileReader fr = new FileReader(dir + folderName + fileName);
+            FileReader fr = new FileReader(dir + folderName + fileName+".csv");
             CSVReader reader = new CSVReader(fr);
             FileWriter fw=new FileWriter(dir+folderName+"temp.csv");
             CSVWriter writer=new CSVWriter(fw);
@@ -96,7 +96,7 @@ public class AppointmentFile extends ClinicFile{
             writer.writeNext(edit);
             writer.close();
             fw.close();
-            File file=new File(dir+folderName+fileName);
+            File file=new File(dir+folderName+fileName+".csv");
             file.delete();
             File nFile=new File(dir+folderName+"temp.csv");
             nFile.renameTo(file);

@@ -6,7 +6,7 @@ import com.opencsv.CSVWriter;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
-//TODO editEntry not working properly
+//TODO: testing
 public class ScheduleFile extends ClinicFile {
     private String dir = "C:/Anand/Code Projects!/Directories/";
     private String folderName = "Schedules/";
@@ -35,7 +35,7 @@ public class ScheduleFile extends ClinicFile {
             CSVWriter writer = new CSVWriter(fw);
             writer.writeNext(header);
             for (int i = 0; i < s.getSlots().size(); i++) {
-                String entry[] = {s.getSlots().get(i).displaySlot(), s.getAppointments().get(i).getRecord().getName() + " " + s.getAppointments().get(i).getDate()};
+                String entry[] = {s.getSlots().get(i).displaySlot(), s.getAppointments().get(i).getFileName()};
                 writer.writeNext(entry);
             }
             writer.close();
@@ -109,6 +109,7 @@ public class ScheduleFile extends ClinicFile {
             }
             File file = new File(dir + folderName + fileName + ".csv");
             File nFile = new File(dir + folderName + "temp.csv");
+            System.gc();
             if (!deleteFile())
                 System.out.println("Failed1");
             if (!nFile.renameTo(file))
@@ -135,11 +136,10 @@ public class ScheduleFile extends ClinicFile {
             {
                 Slot e=new Slot();
                 Slot slot=e.toSlot(data.get(i)[0]);
-                if(slot.isGreater(s))
+                if(slot.isGreater(s)&&!isWritten)
                 {
                     writer.writeNext(arr);
                     isWritten=true;
-                    break;
                 }
                 writer.writeNext(data.get(i));
             }
@@ -154,8 +154,10 @@ public class ScheduleFile extends ClinicFile {
             fw.close();
             File f=new File(dir+folderName+fileName+".csv");
             File f2=new File(dir+folderName+"temp2.csv");
-            f.delete();
-            f2.renameTo(f);
+            boolean err_flag=f.delete();
+            System.out.println("Operation: "+err_flag);
+            System.out.println(err_flag);
+            System.out.println("Operation 2: "+f2.renameTo(f));
             File f3=new File(dir+folderName+"temp2.csv");
             f3.delete();
         }
