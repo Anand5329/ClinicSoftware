@@ -4,7 +4,7 @@ public class LabWork
 {
     private String sentDate, receivedDate, labName, work, patientName;
 
-    LabWork(String sentDate,String receivedDate,String labName,String work, String patientName)
+    public LabWork(String sentDate,String receivedDate,String labName,String work, String patientName)
     {
         this.sentDate=sentDate;
         this.receivedDate=receivedDate;
