@@ -13,6 +13,14 @@ public class MyDate {
         this.date=getDate(date);
     }
 
+    public MyDate(String date)
+    {
+        String[] temp=date.split("-");
+        this.date[0]=temp[2];
+        this.date[1]=temp[1];
+        this.date[2]=temp[0];
+    }
+
     String[] getDate(Date date)
     {
         String arr[]=date.toString().split(" ");
