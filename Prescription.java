@@ -1,7 +1,6 @@
 package ClinicSoftware;
 
 import java.util.LinkedList;
-
 public class Prescription
 {
     private String date,patientName;

@@ -9,7 +9,7 @@ public class Appointment {
     Slot time;
     LabWork lab;
     Prescription prescription;
-//TODO: make add appointment window
+
     public Appointment(Record patient, String date, String procedure, double price, Slot time) {
         this.patient = patient;
         this.date = date;

@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 
 public class Record
 {
-    //TODO: make add record window
     private String name;
     private String phone;
     private String firstAppointmentFile;
