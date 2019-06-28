@@ -126,7 +126,7 @@ public class Record
 
 
     public void setPaid(double paid) {
-        this.paid = paid;
+        this.paid += paid;
     }
 
     public double getPaid() {
@@ -135,8 +135,8 @@ public class Record
 
     public void pay(double amount)
     {
+        money-=amount;
         setPaid(amount);
-        money=money-paid;
     }
 
     public void buildAppointments()
