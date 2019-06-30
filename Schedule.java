@@ -7,7 +7,7 @@ public class Schedule
     String date;
     int patient_counter;
 
-    public Schedule(String date)
+    public Schedule(String date,int userSignature)
     {
         this.date=date;
         this.time=new LinkedList<Slot>();
@@ -15,9 +15,14 @@ public class Schedule
         patient_counter=0;
     }
 
+    Schedule(String date)
+    {
+        this(date,0);
+    }
+
     public Schedule()
     {
-        this("");
+        this("",0);
     }
 
     public String getDate()

@@ -12,6 +12,7 @@ public class ScheduleFile extends ClinicFile {
     private String folderName = "Schedules/";
     private String[] header = {"Slot", "Appointment"};
     private String fileName = "";
+    public int userSignature=0;
 
     public ScheduleFile(Schedule sch) throws IOException {
         Exception e=null;
@@ -28,6 +29,10 @@ public class ScheduleFile extends ClinicFile {
         this.fileName=fileName;
     }
 
+    public void setUserSignature(int userSignature)
+    {
+        this.userSignature=userSignature;
+    }
 
     public Exception createFile(Schedule s) {
         try {
@@ -55,13 +60,18 @@ public class ScheduleFile extends ClinicFile {
             reader.readNext();
             List<String[]> list = reader.readAll();
             Schedule sc = new Schedule(fileName);
-            for (String s[] : list) {
-                String time[] = s[0].split(" - ");
-                Slot sl = new Slot(Double.valueOf(time[1]) - Double.valueOf(time[0]), Double.valueOf(time[0]));
-                AppointmentFile af = new AppointmentFile(s[1]);
-                Appointment a = af.readFile();
-                a.setTime(sl);
-                sc.add(a);
+            if(list!=null) {
+                for (String s[] : list) {
+                    String time[] = s[0].split(" - ");
+                    Slot sl = new Slot(Double.valueOf(time[1]) - Double.valueOf(time[0]), Double.valueOf(time[0]));
+                    AppointmentFile af = new AppointmentFile(s[1]);
+                    Appointment a = af.readFile();
+                    if(a.getUserSignature()==userSignature) {
+                        a.setTime(sl);
+                        sc.add(a);
+                    }
+
+                }
             }
             return sc;
         }
@@ -69,13 +79,13 @@ public class ScheduleFile extends ClinicFile {
         {
             System.err.println("Exception occurred: File not found");
             //e.printStackTrace();
-            return null;
+            return new Schedule();
         }
         catch(Exception e)
         {
             System.err.println("An unknown exception occurred:");
             e.printStackTrace();
-            return null;
+            return new Schedule();
         }
     }
 

@@ -9,8 +9,9 @@ public class Appointment {
     Slot time;
     LabWork lab;
     Prescription prescription;
+    int userSignature;
 
-    public Appointment(Record patient, String date, String procedure, double price, Slot time) {
+    public Appointment(Record patient, String date, String procedure, double price, Slot time,int userSignature) {
         this.patient = patient;
         this.date = date;
         this.procedure = procedure;
@@ -23,14 +24,23 @@ public class Appointment {
             this.time=new Slot();
         lab=new LabWork();
         prescription = new Prescription();
+        this.userSignature=userSignature;
     }
 
     public Appointment() {
-        this(Record.defaultRecord(), "", "", 0,null);
+        this(Record.defaultRecord(), "", "", 0,null,0);
     }
 
-    public Appointment(Record patient, String date,Slot t1) {
-        this(patient, date, "", 0,t1);
+    public void setUserSignature(int userSignature) {
+        this.userSignature = userSignature;
+    }
+
+    public int getUserSignature() {
+        return userSignature;
+    }
+
+    public Appointment(Record patient, String date, Slot t1) {
+        this(patient, date, "", 0,t1,0);
     }
 
     public Record getRecord() {
