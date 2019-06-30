@@ -15,7 +15,7 @@ public class Schedule
         patient_counter=0;
     }
 
-    Schedule(String date)
+    public Schedule(String date)
     {
         this(date,0);
     }

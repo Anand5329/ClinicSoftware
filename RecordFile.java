@@ -49,7 +49,7 @@ public class RecordFile extends ClinicFile{
             reader.readNext();
             String arr[] = reader.readNext();
             Record r = new Record(arr[0], arr[1]);
-            r.updateMoney(Double.valueOf(arr[6]));
+            r.setMoney(Double.valueOf(arr[6]));
             r.setAge(Integer.valueOf(arr[2]));
             r.setFirstAppointmentFile(arr[3]);
             r.setLatestAppointmentFile(arr[4]);

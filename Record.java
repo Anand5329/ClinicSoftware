@@ -124,6 +124,10 @@ public class Record
         money+=mon;
     }
 
+    public void setMoney(double money)
+    {
+        this.money=money;
+    }
 
     public void setPaid(double paid) {
         this.paid += paid;
@@ -214,5 +218,10 @@ public class Record
     {
         Record record=new Record();
         return record;
+    }
+
+    public void updateRecord()
+    {
+        RecordFile file=new RecordFile(this);
     }
 }

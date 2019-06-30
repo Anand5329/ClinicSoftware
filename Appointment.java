@@ -91,13 +91,23 @@ public class Appointment {
     public void setPrice(double price)
     {
         this.price=price;
+    }
+
+    public void reflect()
+    {
         patient.updateMoney(price);
+        patient.updateRecord();
+    }
+
+    public void pay()
+    {
+        patient.pay(paid);
+        patient.updateRecord();
     }
 
     public void setPaid(double paid)
     {
         this.paid=paid;
-        patient.pay(paid);
     }
 
     public void setTime(Slot time)
@@ -173,5 +183,16 @@ public class Appointment {
         patient.display();
         System.out.println("\n"+date+"\n"+time.displaySlot());
         prescription.display();
+    }
+
+    public void updateAppointment()
+    {
+        try {
+            AppointmentFile file = new AppointmentFile(this);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }
