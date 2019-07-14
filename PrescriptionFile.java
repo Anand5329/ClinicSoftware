@@ -1,11 +1,13 @@
 package ClinicSoftware;
 import java.io.*;
 import com.opencsv.*;
+//TODO: change Prescription data storage in  file(add name and date within the file)
 public class PrescriptionFile extends ClinicFile
 {
     private String prescriptionHeader[]={"Medicine Name","Instruction"};
     private String prescriptionFolder="Prescriptions/";
     private String fileName;
+    private String dir=super.getDirectory();
 
     public PrescriptionFile(String fileName)
     {

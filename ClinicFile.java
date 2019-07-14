@@ -3,10 +3,20 @@ package ClinicSoftware;
 import java.io.*;
 
 public class ClinicFile {
-    String dir = "C:/Anand/Code Projects!/Directories/";
+
+    String dir = getDirectory();
+
+
+    String getDirectory()
+    {
+        String tempdir=System.getProperty("user.dir");
+        tempdir=tempdir+"\\Directories\\";
+        return tempdir;
+    }
 
     boolean isFilePresent(String dir,String folderName,String fileName)
     {
+        System.out.println(this.dir);
         try
         {
             FileReader fr=new FileReader(dir+folderName+fileName);

@@ -8,11 +8,12 @@ import java.util.LinkedList;
 import java.util.List;
 //TODO: testing
 public class ScheduleFile extends ClinicFile {
-    private String dir = "C:/Anand/Code Projects!/Directories/";
+    private String dir = super.dir;
     private String folderName = "Schedules/";
     private String[] header = {"Slot", "Appointment"};
     private String fileName = "";
     public int userSignature=0;
+    private int timeDelay=250;
 
     public ScheduleFile(Schedule sch) throws IOException {
         Exception e=null;
@@ -120,6 +121,7 @@ public class ScheduleFile extends ClinicFile {
             File file = new File(dir + folderName + fileName + ".csv");
             File nFile = new File(dir + folderName + "temp.csv");
             System.gc();
+            Thread.sleep(timeDelay);
             if (!deleteFile())
                 System.out.println("Failed1");
             if (!nFile.renameTo(file))
@@ -162,11 +164,15 @@ public class ScheduleFile extends ClinicFile {
             writer.close();
             fr.close();
             fw.close();
+            System.gc();
             File f=new File(dir+folderName+fileName+".csv");
             File f2=new File(dir+folderName+"temp2.csv");
+            System.gc();
+            Thread.sleep(timeDelay);
             boolean err_flag=f.delete();
             System.out.println("Operation: "+err_flag);
             System.out.println(err_flag);
+            System.gc();
             System.out.println("Operation 2: "+f2.renameTo(f));
             File f3=new File(dir+folderName+"temp2.csv");
             f3.delete();

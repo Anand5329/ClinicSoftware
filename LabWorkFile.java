@@ -7,6 +7,7 @@ public class LabWorkFile extends ClinicFile
     private String labHeader[]={"Patient Name","Sent Date","Received Date","Lab Name","Description"};
     private String labFolder="Lab Work/";
     private String fileName;
+    private String dir=super.getDirectory();
 
     public LabWorkFile(String fileName)
     {
@@ -68,8 +69,8 @@ public class LabWorkFile extends ClinicFile
             LabWork = reader.readNext();
 
             LabWork lab = new LabWork();
-            lab.setPatientName(fileName.split(" ")[0]);
-            lab.setSentDate(fileName.split(" ")[1]);
+            lab.setPatientName(LabWork[0]);
+            lab.setSentDate(LabWork[1]);
             lab.setReceivedDate(LabWork[2]);
             lab.setLabName(LabWork[3]);
             lab.setWork(LabWork[4]);
@@ -78,7 +79,7 @@ public class LabWorkFile extends ClinicFile
         catch (FileNotFoundException e)
         {
             System.err.println("Exception occurred: File not found");
-            //e.printStackTrace();
+            e.printStackTrace();
             return null;
         }
         catch(Exception e)
