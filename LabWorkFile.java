@@ -79,13 +79,13 @@ public class LabWorkFile extends ClinicFile
         catch (FileNotFoundException e)
         {
             System.err.println("Exception occurred: File not found");
-            e.printStackTrace();
+            //e.printStackTrace();
             return null;
         }
         catch(Exception e)
         {
             System.err.println("An unknown exception occurred:");
-            e.printStackTrace();
+            //e.printStackTrace();
             return null;
         }
     }

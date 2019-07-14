@@ -6,7 +6,6 @@ import com.opencsv.CSVWriter;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
-//TODO: testing
 public class ScheduleFile extends ClinicFile {
     private String dir = super.dir;
     private String folderName = "Schedules/";

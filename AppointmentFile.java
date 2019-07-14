@@ -71,7 +71,7 @@ public class AppointmentFile extends ClinicFile{
         catch(Exception e)
         {
             System.err.println("An unknown exception occurred:");
-            e.printStackTrace();
+            //e.printStackTrace();
             return null;
         }
     }
@@ -108,7 +108,7 @@ public class AppointmentFile extends ClinicFile{
         }
         return null;
     }
-//TODO: sort this up:
+
     public Exception editFile(int index, Record r)
     {
         return editFile(index,r.getFileName());

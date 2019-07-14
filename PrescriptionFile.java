@@ -1,7 +1,6 @@
 package ClinicSoftware;
 import java.io.*;
 import com.opencsv.*;
-//TODO: change Prescription data storage in  file(add name and date within the file)
 public class PrescriptionFile extends ClinicFile
 {
     private String prescriptionHeader[]={"Medicine Name","Instruction"};
@@ -47,9 +46,12 @@ public class PrescriptionFile extends ClinicFile
         try {
             FileWriter fw = new FileWriter(dir + prescriptionFolder + prescription.getPatientName() + " " + prescription.getDate() + ".csv");
             CSVWriter writer = new CSVWriter(fw);
+            String preHeader[]={prescription.getPatientName(),prescription.getDate()};
+            writer.writeNext(preHeader);
             writer.writeNext(prescriptionHeader);
             for (int i = 0; i < prescription.getMedicines().size(); i++) {
-                String temp[] = {prescription.getMedicines().get(i), prescription.getInstruction().get(i)};
+
+                String temp[]= {prescription.getMedicines().get(i), prescription.getInstruction().get(i)};
                 writer.writeNext(temp);
             }
             writer.close();
@@ -67,10 +69,11 @@ public class PrescriptionFile extends ClinicFile
         try {
             FileReader fr = new FileReader(dir + prescriptionFolder + fileName + ".csv");
             CSVReader reader = new CSVReader(fr);
+            String details[]=reader.readNext();
             reader.readNext();
             Prescription pre = new Prescription();
-            pre.setPatientName(fileName.split(" ")[0]);
-            pre.setDate(fileName.split(" ")[1]);
+            pre.setPatientName(details[0]);
+            pre.setDate(details[1]);
             String temp[];
             while ((temp = reader.readNext()) != null) {
                 pre.addMedicine(temp[0]);
@@ -104,7 +107,7 @@ public class PrescriptionFile extends ClinicFile
             CSVReader reader = new CSVReader(fr);
             FileWriter fw = new FileWriter(dir + prescriptionFolder + "temp.csv");
             CSVWriter writer = new CSVWriter(fw);
-            int ctr = 0;
+            int ctr = -1;
             String temp2[];
             while ((temp2 = reader.readNext()) != null) {
                 if (index != ctr) {
@@ -140,6 +143,7 @@ public class PrescriptionFile extends ClinicFile
             CSVReader reader=new CSVReader(fr);
             String temp[];
             int ctr=0;
+            writer.writeNext(reader.readNext());
             writer.writeNext(reader.readNext());
             String medicinesArr[] = {medicine, instruction};
             while(true)
