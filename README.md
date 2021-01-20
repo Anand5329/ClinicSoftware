@@ -1,7 +1,7 @@
 # ClinicSoftware   
 
 This is the backend of the Clinic Software.    
-The frontend can be found here:
+The frontend can be found here: https://github.com/Harsh729/JavaFX-Clinic-GUI
 
 This project was designed after regular consultation with a dentist.   
 It includes the functionality that may be useful in a dental clinic.
